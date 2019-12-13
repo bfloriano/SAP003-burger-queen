@@ -6,6 +6,8 @@ function Menu() {
   const [itens2, setItens2] = useState([]);
   const [menu, setMenu] = useState();
 
+  // const [resumo, setResumo] = useState([]);
+
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
@@ -26,7 +28,7 @@ function Menu() {
     const unsubscribe = firebase
       .firestore()
       .collection('menu')
-      .where('allday', '==', true)
+      .where('allday', '==', true) 
       .onSnapshot((snapshot) => {
         const products = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -38,6 +40,10 @@ function Menu() {
       
   }, [])
 
+
+// onClick={() => setResumo([xis])}>
+          //   {console.log(resumo)}
+
   return (
     <div>
       <h1>Cardápio</h1>
@@ -46,27 +52,87 @@ function Menu() {
        
         {menu ? 
 
+      
         <div>{itens1.map((xis) => 
-          <div key={xis.id}>     
+          <div key={xis.id}> 
+          <button className='add-btn'>
+          
             <div className='itens'>{xis.name}
-              <div className='price-itens'>{xis.price} reais</div> 
-            </div>  
-            <button className='add-btn'>Adicionar</button>
-          </div>)} 
-        </div> 
+            <div className='price-itens'>{xis.price} reais</div> 
+            </div> 
+          Adicionar
+          </button>  
+          </div>)};
+        </div>
 
         : 
        
-        <div>{itens2.map((xis) => 
-          <div key={xis.id}>     
+        <div>
+
+        <div><h1>Hambúrgueres</h1>
+          {itens2.map((xis) => 
+          xis.type === 'burger' ?
+          <div key={xis.id}>      
+          <button className='add-btn'>
             <div className='itens'>{xis.name}
-              <div className='price-itens'>{xis.price} reais</div> 
-            </div>  
-            <button className='add-btn'>Adicionar</button>  
-          </div>)} 
-        </div> 
+            <div className='price-itens'>{xis.price} reais</div> 
+            </div> 
+          Adicionar
+          </button>
+          </div>
+         
+          : false
+        )}
+        </div>
+
+
+      <div><h1>Bebidas</h1>
+        {itens2.map((xis) => 
+          xis.type === 'drink' ?
+          <div key={xis.id}>      
+          <button className='add-btn'>
+            <div className='itens'>{xis.name}
+            <div className='price-itens'>{xis.price} reais</div> 
+            </div> 
+          Adicionar
+          </button>
+          </div>
+         
+          : false
+        )}
+      </div>
+
+
+      <div><h1>Acompanhamentos</h1>
+        {itens2.map((xis) => 
+          xis.type === 'acomp' ?
+          <div key={xis.id}>      
+          <button className='add-btn'>
+            <div className='itens'>{xis.name}
+            <div className='price-itens'>{xis.price} reais</div> 
+            </div> 
+          Adicionar
+          </button>
+          </div>
+         
+          : false
+        )}
+      </div>
+      
+
+      </div>
+        
         
         }
+
+        {/* <div>
+        {resumo.map((teste) => 
+        <div key={teste.id}>      
+  
+          <div className='itens'>{teste.name}</div>
+          </div>
+        )}
+        </div> */}
     
     </div>
   )
