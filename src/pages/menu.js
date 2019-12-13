@@ -2,56 +2,74 @@ import React, { useState, useEffect } from 'react';
 import firebase from '../components/Firebase/firebase';
 
 function Menu() {
-  const [itens, setItens] = useState([])
+  const [itens1, setItens1] = useState([]);
+  const [itens2, setItens2] = useState([]);
+  const [menu, setMenu] = useState();
 
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
-      .collection('breakfast')
+      .collection('menu')
+      .where('breakfast', '==', true)
       .onSnapshot((snapshot) => {
         const products = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data()
         }))
-        setItens(products)
-      })
-      return () => unsubscribe()
+          setItens1(products)
+        })
+    return () => unsubscribe()
+      
   }, [])
 
-  return itens
-}
-
-const ExibeMenu = () => {
-  const itens = Menu()
+  useEffect(() => {
+    const unsubscribe = firebase
+      .firestore()
+      .collection('menu')
+      .where('allday', '==', true)
+      .onSnapshot((snapshot) => {
+        const products = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+          setItens2(products)
+        })
+    return () => unsubscribe()
+      
+  }, [])
 
   return (
     <div>
       <h1>Cardápio</h1>
-      <h3>Café da Manhã</h3>
+      <button className='menu-options' onClick={() => setMenu(true)}>Breakfast</button>
+      <button className='menu-options' onClick={() => setMenu(false)}>All Day</button>
+       
+        {menu ? 
 
-      <ol>
-        {itens.map((xis) => 
-          <div key={xis.id}>
-            <div className='xis-entry'> 
-              {xis.name}
-              <code className='xis'> {xis.price} reais</code>
-            </div>
-          </div>
-        )}
-      </ol>
+        <div>{itens1.map((xis) => 
+          <div key={xis.id}>     
+            <div className='itens'>{xis.name}
+              <div className='price-itens'>{xis.price} reais</div> 
+            </div>  
+            <button className='add-btn'>Adicionar</button>
+          </div>)} 
+        </div> 
+
+        : 
+       
+        <div>{itens2.map((xis) => 
+          <div key={xis.id}>     
+            <div className='itens'>{xis.name}
+              <div className='price-itens'>{xis.price} reais</div> 
+            </div>  
+            <button className='add-btn'>Adicionar</button>  
+          </div>)} 
+        </div> 
+        
+        }
+    
     </div>
   )
 }
 
-export default ExibeMenu;
-
-// export default class Menu extends React.Component {
-//   render () {
-//     return (
-//       <div>
-//         <h1>Cardápio</h1>
-//         <p>{ this.props.title }</p>
-//       </div>
-//     )
-//   }
-// }
+export default Menu;

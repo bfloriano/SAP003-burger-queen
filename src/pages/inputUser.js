@@ -22,17 +22,17 @@ const Register = () => {
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <h4>Registro do Cliente</h4>
+    <form>
+      <p>Preencha os campos abaixo para concluir o pedido</p>
       <div>
-        <label>Nome:</label>
+        <label>Nome: </label>
         <input type='text' value={client} onChange={e => setClient(e.currentTarget.value)} />
       </div>
       <div>
-        <label>Mesa:</label>
+        <label>Mesa: </label>
         <input type='number' value={table} onChange={e => setTable(e.currentTarget.value)} />
       </div>
-      <button>Enviar Pedido</button>
+      <button className='add-btn' onClick={onSubmit}>Enviar Pedido</button>
     </form>
   )
 }
