@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import firebase from './components/Firebase/firebase';
-import ExibeMenu from './pages/menu';
+import Menu from './pages/menu';
 import Register from './pages/inputUser';
 
 import './App.css';
@@ -11,9 +11,12 @@ export default function App() {
 
   return (
     <div className="App">
-      <ExibeMenu />
-      <Register />
-      
+      <div className='menu'>
+        <Menu />
+      </div>
+      <div className='resumo'>
+        <Register />
+      </div>
     </div>
   );
 }
