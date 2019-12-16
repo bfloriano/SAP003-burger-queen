@@ -52,7 +52,7 @@ function Menu() {
   }
 
   const [resumo, setResumo] = useState([]);
-  const res =[];
+  
 
   return (
     <>
@@ -63,10 +63,9 @@ function Menu() {
       <Button class='option-btn' handleClick={() => setMenu(false)} title='All Day'/>
   
         {menu ? 
-     
           <>
             {itens1.map((item) =>
-              <Button class='itens-btn' handleClick={() => setResumo([item])} title={
+              <Button class='itens-btn' handleClick={() => setResumo([...resumo, item])} title={
                 <>
                 <Title class='title-secondary' title={item.name}/>
                 <Title class='title-tertiary' title={item.price} addtitle=' reais'/>
@@ -127,30 +126,26 @@ function Menu() {
 
       <div div className='resumo'>
 
-
           {
-            resumo.map((item) => 
+            
+            resumo.map((item) =>
+            // {const del = () => {resumo.reduce(item)} 
             <div>
-            
-            <Button class='resumo-itens-btn' title={
-              <>
-              <Title class='title-resumo' title={item.name} addtitle={' = '+item.price+' reais'}/> 
-              </>} 
-            />
-                    
-            {res.push(item.name)}
-            
-            {console.log(res)} 
-
-
-
-                {/* {item.reduce((total, valor) => total + valor.price, 0)} */}
-                <p className='total'>Valor Total do Pedido: <strong>{item.price} reais</strong></p>
-
+              <Button class='resumo-itens-btn' title={
+                <>
+                <Title class='title-resumo' title={item.name} addtitle={' = '+item.price+' reais'}/> 
+                {/* <button onClick={() => del}>D</button> */}
+                </>
+              }/>
+          
+              {console.log(resumo)}
             </div>
+    
 
-            )}
 
+  )}
+
+        <p className='total'>Valor Total do Pedido: <strong>{resumo.reduce((total, valor) => total + valor.price, 0)} reais</strong></p>
 
         <p>Preencha os campos abaixo para concluir</p>
         <Input class ='input' label='Nome: ' type='text' value={client} 
