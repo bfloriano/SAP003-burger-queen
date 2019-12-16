@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import firebase from './components/Firebase/firebase';
+import React from 'react';
 import Menu from './pages/menu';
 import Register from './pages/inputUser';
 

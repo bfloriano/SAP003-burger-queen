@@ -3,14 +3,13 @@
   flex-direction: row;
   justify-content: space-evenly;
   align-items: flex-start;
-  /* text-align: center; */
 }
 
 .menu {
-  border: solid 2px black;
+  border: solid 2px #FFE4B5;
   width: 60%;
   text-align: center;
-  margin: 20px;
+  margin: 7px;
   /* height: 300px; */
   /* display: flex;
   flex-direction: row;
@@ -18,59 +17,88 @@
   align-items: flex-start; */
 }
 
-
 .resumo {
-  /* border: solid 2px black; */
+  border: solid 2px #FFE4B5;
   width: 40%;
   text-align: center;
   align-self: flex-start;
-  margin: 20px;
-  /* height: 300px; */
-  /* height: 500px; */
-  /* margin: 50px; */
+  padding: 5px;
+  margin: 7px;
 }
 
-.menu-options {
+/* 768 px */
+.option-btn {
   height: 100px;
-  width: 200px;
+  width: 180px;
   border: none;
+  border-radius: 10px;
   background: #F4A460;
   padding: 10px;
-  margin: 30px;
+  margin: 10px;
   font: bolder 26px Arial;
+  color: white;
 }
 
-.itens {
-  color: #999;
-  font: bolder 16px Arial;
-  /* font-size: 16px; */
-  text-align: center;
-  /* width: 200px; */
+/* 600 px*/
+/* 
+.option-btn {
+  width: 150px;
+  margin: 5px;
+} */
+
+
+.itens-btn {
+  border: none;
+  background: rgba(255, 243, 199, 0.808);
+  border-radius: 10px;
+  width: 180px;
+  margin: 10px;
   padding: 5px;
-  /* margin-left: 45%; */
+  height:150px;
+  font: italic 20px Arial;
+  color: rgb(209, 114, 114);
 }
 
-.price-itens {
-  font: normal 16px Arial;
-
-}
-
-.add-btn {
+.order-btn {
   border: none;
   background: #FFE4B5;
-  border-radius: 5px;
+  border-radius: 10px;
   width: 200px;
   margin: 10px;
   height:100px;
-  /* margin-right:15%; */
-  /* align: left; */
-  /* text-align: right; */
-  /* align-items: right; */
+  font: bold 20px Arial;
 }
 
+.title-menu {
+  font: bolder 28px Arial;
+  color: rgb(90, 67, 2);
+}
 
+.title-primary {
+  font: normal 22px Arial;
+  color: rgb(90, 67, 2);
+}
 
-.App-header {
+.title-secondary {
+  color: #999;
+  font: bolder 16px Arial;
+  text-align: center;
+  padding: 2px;
+  /* justify-content: start; */
+}
+
+.title-tertiary {
+  font: normal 16px Arial;
+  color: #999;
+
+}
+
+.input {
+  text-align: right;
+  margin-right: 35px;
+}
+
+/* .App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -79,6 +107,6 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+} */
 
 
