@@ -59,6 +59,17 @@
   color: rgb(209, 114, 114);
 }
 
+.resumo-itens-btn {
+  border: none;
+  background: rgba(219, 219, 219, 0.644);
+  border-radius: 5px;
+  width: 250px;
+  margin: 5px;
+  padding: 0px;
+  height:30px;
+  
+}
+
 .order-btn {
   border: none;
   background: #FFE4B5;
@@ -90,12 +101,24 @@
 .title-tertiary {
   font: normal 16px Arial;
   color: #999;
+}
+
+.title-resumo {
+  font: normal 12px Arial;
+  color: rgb(22, 22, 22);
 
 }
 
 .input {
   text-align: right;
   margin-right: 35px;
+}
+
+.total {
+  border: solid 3px rgb(172, 0, 0);
+  background: rgba(134, 0, 0, 0.096);
+  padding: 20px ;
+  color: rgb(31, 16, 16);
 }
 
 /* .App-header {
