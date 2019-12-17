@@ -11,7 +11,7 @@ function Menu() {
 
   useEffect(() => {
     const unsubscribe = firebase
-      .firestore().collection('menu').where('breakfast', '==', true)
+      .firestore().collection('menu').where('category', '==', 'breakfast')
       .get().then((snapshot) => {
         const products = snapshot.docs.map((doc) => ({
           ...doc.data()
@@ -23,7 +23,7 @@ function Menu() {
 
   useEffect(() => {
     const unsubscribe = firebase
-      .firestore().collection('menu').where('allday', '==', true) 
+      .firestore().collection('menu').where('category', '==', 'allday') 
       .get().then((snapshot) => {
         const products = snapshot.docs.map((doc) => ({
           ...doc.data()
@@ -129,7 +129,7 @@ function Menu() {
             <> <Title class='title-primary' title='Hambúrgueres'/>
               {itens2.map((item) => 
                 item.type === 'burger' ?
-                  <Button class='itens-btn' title={
+                  <Button class='itens-btn' handleClick={() => addItem(item)} title={
                     <>
                     <Title class='title-secondary' title={item.name}/>
                     <Title class='title-tertiary' title={item.price} addtitle=' reais'/>
@@ -143,7 +143,7 @@ function Menu() {
             <> <Title class='title-primary' title='Acompanhamentos'/>
               {itens2.map((item) => 
                 item.type === 'acomp' ?
-                  <Button class='itens-btn' title={
+                  <Button class='itens-btn' handleClick={() => addItem(item)} title={
                     <>
                     <Title class='title-secondary' title={item.name}/>
                     <Title class='title-tertiary' title={item.price} addtitle=' reais'/>
@@ -157,7 +157,7 @@ function Menu() {
             <> <Title class='title-primary' title='Bebidas'/>
               {itens2.map((item) => 
                 item.type === 'drink' ?
-                  <Button class='itens-btn' title={
+                  <Button class='itens-btn' handleClick={() => addItem(item)} title={
                     <>
                     <Title class='title-secondary' title={item.name}/>
                     <Title class='title-tertiary' title={item.price} addtitle=' reais'/>
