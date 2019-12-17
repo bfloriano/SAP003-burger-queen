@@ -36,23 +36,69 @@ function Menu() {
   const [client, setClient] = useState('')
   const [table, setTable] = useState('')
 
+  const [resumo, setResumo] = useState([]);
+  const [total, setTotal] = useState(0);
+
   function onSubmit(e) {
     e.preventDefault()
 
     firebase
-      .firestore().collection('clients')
+      .firestore().collection('Orders')
       .add({
+        resumo,
+        total,
         client, 
         table: parseInt(table)
       })
       .then(() => {
+        setResumo([])
+        setTotal(0)
         setClient('')
         setTable('')
       })
   }
 
-  const [resumo, setResumo] = useState([]);
+
+
+
+  const addItem = (item) => {
+    if(!resumo.includes(item)){
+      item.count = 1
+      setResumo([...resumo, item])
+
+    } else {
+      item.count += 1
+      setResumo([...resumo])
+    }
+    setTotal(total + (item.price));
+  }
   
+
+
+  const reduceItem = (item) => {
+    if(item.count === 1){
+      delItem(item)
+    
+    } else {
+      item.count -= 1
+      setResumo([...resumo])
+      const upTotal = total - item.price;
+      setTotal(upTotal);
+    }
+  }
+
+  
+  const delItem = (item) => {
+    // resumo.reduce(item) 
+    const index = resumo.indexOf(item)
+      resumo.splice(index, 1)
+      setResumo([...resumo])
+    const updateTotal = total - (item.price*item.count);
+    setTotal(updateTotal)
+
+  }
+
+
 
   return (
     <>
@@ -65,8 +111,9 @@ function Menu() {
         {menu ? 
           <>
             {itens1.map((item) =>
-              <Button class='itens-btn' handleClick={() => setResumo([...resumo, item])} title={
+              <Button class='itens-btn' handleClick={() => addItem(item)} title={
                 <>
+                
                 <Title class='title-secondary' title={item.name}/>
                 <Title class='title-tertiary' title={item.price} addtitle=' reais'/>
                 </>
@@ -124,28 +171,34 @@ function Menu() {
         }
       </div>
 
-      <div div className='resumo'>
+      <div className='resumo'>
 
           {
             
             resumo.map((item) =>
-            // {const del = () => {resumo.reduce(item)} 
+            
             <div>
               <Button class='resumo-itens-btn' title={
                 <>
-                <Title class='title-resumo' title={item.name} addtitle={' = '+item.price+' reais'}/> 
-                {/* <button onClick={() => del}>D</button> */}
+                Qtd: {item.count}
+                <Button class='' handleClick={() =>reduceItem(item)} title='-'/>
+                <Button class='' handleClick={() =>addItem(item)} title='+'/>
+                <Button class='' handleClick={() =>delItem(item)} title='Delete'/>
+                <Title class='title-resumo' title={item.name} 
+                  addtitle={'valor total: R$ '+item.price*item.count+',00'}/> 
+                
                 </>
               }/>
           
-              {console.log(resumo)}
+              {console.log(resumo, total)}
             </div>
     
 
 
   )}
 
-        <p className='total'>Valor Total do Pedido: <strong>{resumo.reduce((total, valor) => total + valor.price, 0)} reais</strong></p>
+<p className='total'>Valor Total do Pedido: <strong>{total} reais</strong></p>
+        {/* <p className='total'>Valor Total do Pedido: <strong>{resumo.reduce((total, valor) => total + valor.price, 0)} reais</strong></p> */}
 
         <p>Preencha os campos abaixo para concluir</p>
         <Input class ='input' label='Nome: ' type='text' value={client} 
