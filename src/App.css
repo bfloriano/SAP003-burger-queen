@@ -80,6 +80,18 @@
   font: bold 20px Arial;
 }
 
+.home-btn {
+  height: 100px;
+  width: 180px;
+  border: none;
+  border-radius: 10px;
+  background: rgb(27, 25, 24);
+  padding: 10px;
+  margin: 10px;
+  font: bolder 26px Arial;
+  color: white;
+}
+
 .title-menu {
   font: bolder 28px Arial;
   color: rgb(90, 67, 2);

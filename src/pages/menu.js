@@ -1,43 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import firebase from '../components/Firebase/firebase';
+import firebase from '../Utils/firebase';
 import Button from '../components/button';
 import Title from '../components/title';
 import Input from '../components/input';
+import Item from '../components/itens';
 
 function Menu() {
   const [itens1, setItens1] = useState([]);
   const [itens2, setItens2] = useState([]);
-  const [menu, setMenu] = useState(true);
+  const [menu, setMenu] = useState();
 
   useEffect(() => {
-    const unsubscribe = firebase
+    firebase
       .firestore().collection('menu').where('category', '==', 'breakfast')
-      .get().then((snapshot) => {
-        const products = snapshot.docs.map((doc) => ({
-          ...doc.data()
-        }))
-          setItens1(products)
+      .get().then(snapshot => {
+        snapshot.forEach(doc => {
+        setItens1((currentState) => [...currentState, doc.data()])
         })
-    return () => unsubscribe()
+      })
   }, [])
 
   useEffect(() => {
-    const unsubscribe = firebase
+    firebase
       .firestore().collection('menu').where('category', '==', 'allday') 
-      .get().then((snapshot) => {
-        const products = snapshot.docs.map((doc) => ({
-          ...doc.data()
-        }))
-        setItens2(products)
-      })
-    return () => unsubscribe()
-  }, [])
-
-  const [client, setClient] = useState('')
-  const [table, setTable] = useState('')
+      .get().then(snapshot => {
+        snapshot.forEach(doc => {
+          setItens2((currentState) => [...currentState, doc.data()])
+          })
+        })
+    }, [])
 
   const [resumo, setResumo] = useState([]);
   const [total, setTotal] = useState(0);
+  const [client, setClient] = useState('')
+  const [table, setTable] = useState('')
 
   function onSubmit(e) {
     e.preventDefault()
@@ -58,14 +54,10 @@ function Menu() {
       })
   }
 
-
-
-
   const addItem = (item) => {
     if(!resumo.includes(item)){
       item.count = 1
       setResumo([...resumo, item])
-
     } else {
       item.count += 1
       setResumo([...resumo])
@@ -73,12 +65,17 @@ function Menu() {
     setTotal(total + (item.price));
   }
   
-
+  const delItem = (item) => {
+    const index = resumo.indexOf(item)
+      resumo.splice(index, 1)
+      setResumo([...resumo])
+    const updateTotal = total - (item.price*item.count);
+    setTotal(updateTotal)
+  }
 
   const reduceItem = (item) => {
-    if(item.count === 1){
+    if(item.count === 1) {
       delItem(item)
-    
     } else {
       item.count -= 1
       setResumo([...resumo])
@@ -86,19 +83,6 @@ function Menu() {
       setTotal(upTotal);
     }
   }
-
-  
-  const delItem = (item) => {
-    // resumo.reduce(item) 
-    const index = resumo.indexOf(item)
-      resumo.splice(index, 1)
-      setResumo([...resumo])
-    const updateTotal = total - (item.price*item.count);
-    setTotal(updateTotal)
-
-  }
-
-
 
   return (
     <>
@@ -111,14 +95,7 @@ function Menu() {
         {menu ? 
           <>
             {itens1.map((item) =>
-              <Button class='itens-btn' handleClick={() => addItem(item)} title={
-                <>
-                
-                <Title class='title-secondary' title={item.name}/>
-                <Title class='title-tertiary' title={item.price} addtitle=' reais'/>
-                </>
-                } addtitle='Adicionar' 
-              />
+              <Item function={() => addItem(item)} name={item.name} price={item.price}/>
             )}
           </>
 
@@ -129,42 +106,22 @@ function Menu() {
             <> <Title class='title-primary' title='Hambúrgueres'/>
               {itens2.map((item) => 
                 item.type === 'burger' ?
-                  <Button class='itens-btn' handleClick={() => addItem(item)} title={
-                    <>
-                    <Title class='title-secondary' title={item.name}/>
-                    <Title class='title-tertiary' title={item.price} addtitle=' reais'/>
-                    </>
-                    } addtitle='Adicionar'
-                  />
-                : false
+                <Item function={() => addItem(item)} name={item.name} price={item.price}/> : false
+                // <Input type='radio' name={item.meet} />                
               )}
             </>
 
             <> <Title class='title-primary' title='Acompanhamentos'/>
               {itens2.map((item) => 
                 item.type === 'acomp' ?
-                  <Button class='itens-btn' handleClick={() => addItem(item)} title={
-                    <>
-                    <Title class='title-secondary' title={item.name}/>
-                    <Title class='title-tertiary' title={item.price} addtitle=' reais'/>
-                    </>
-                    } addtitle='Adicionar'
-                  />
-                : false
+                <Item function={() => addItem(item)} name={item.name} price={item.price}/> : false
               )}
             </>
 
             <> <Title class='title-primary' title='Bebidas'/>
               {itens2.map((item) => 
-                item.type === 'drink' ?
-                  <Button class='itens-btn' handleClick={() => addItem(item)} title={
-                    <>
-                    <Title class='title-secondary' title={item.name}/>
-                    <Title class='title-tertiary' title={item.price} addtitle=' reais'/>
-                    </>
-                    } addtitle='Adicionar'
-                  />
-                : false
+                item.type === 'drink' ? 
+                <Item function={() => addItem(item)} name={item.name} price={item.price}/> : false
               )}
             </>
           </>
