@@ -37,9 +37,10 @@ function Menu() {
   const [client, setClient] = useState('')
   const [table, setTable] = useState('')
 
-  function onSubmit(e) {
+  function sendOrder(e) {
     e.preventDefault()
 
+    if (resumo.length && table && client) {
     firebase
       .firestore().collection('Orders')
       .add({
@@ -55,6 +56,19 @@ function Menu() {
         setClient('')
         setTable('')
       })
+    }
+
+    else if (!resumo.length) {
+      alert('Selecione ao menos um produto para gerar o pedido')
+    }
+
+    else if (!table) {
+      alert('Por favor, insira o número da mesa')
+    }
+
+    else if (!client) {
+      alert('Por favor, insira o nome do cliente')
+    }
   }
 
   const addItem = (item) => {
@@ -108,17 +122,25 @@ function Menu() {
                 item.type === 'burger' ?
                 <>
                   <button className='burger-btn'>
+
+
+
                     {item.meet.map((op) =>
                       <>
-                        <input type="radio" name={item.name} value={op} checked />{op} 
+                        <input type="radio" name={item.name} value={op} id={op + item.id} checked />{op} 
+                        {console.log(op)}
                       </>
                     )}
-                    {item.add.map((op) =>
+
+                    {item.add.map((extra) =>
                       <>
-                        <p><input type="checkbox" name={item.name} value={op} />{op} + R$ 1,00</p>
-                      {/* {op.checked} ? {item.price += 1} : {item.price}  */}
+                        <p><input type="checkbox" name={item.name} value={extra} id={extra + item.id} />{extra} + R$ 1,00</p>
                       </>
                     )}
+
+
+
+                    
                   <Button class='itens-btn' handleClick={() => addItem(item)} title={
                     <>
                     <Title class='title-secondary' title={item.name}/>
@@ -149,42 +171,29 @@ function Menu() {
       </div>
 
       <div className='resumo'>
-
-          {
-            
-            resumo.map((item) =>
-            
-            <div>
-              <Button class='resumo-itens-btn' title={
-                <>
+        
+        {resumo.map((item) =>
+          <div>
+            <Button class='resumo-itens-btn' title={
+              <>
                 <Title class='title-resumo' title={item.name} 
                   addtitle={' - valor total: R$ '+item.price*item.count+',00'}/>
-                Qtd:
-                <Button class='' handleClick={() =>reduceItem(item)} title='-'/>
-                 {item.count}  
-                <Button class='' handleClick={() =>addItem(item)} title='+'/>
-                <Button class='' handleClick={() =>delItem(item)} title='Delete'/>
-                 
-                
-                </>
-              }/>
-          
-              {console.log(resumo, total)}
-            </div>
-    
+                  Qtd:
+                  <Button class='' handleClick={() =>reduceItem(item)} title='-'/>{item.count}  
+                  <Button class='' handleClick={() =>addItem(item)} title='+'/>
+                  <Button class='' handleClick={() =>delItem(item)} title='Delete'/>
+              </>
+            }/>
+          </div>
+        )}
 
-
-  )}
-
-<p className='total'>Valor Total do Pedido: <strong>{total} reais</strong></p>
-        {/* <p className='total'>Valor Total do Pedido: <strong>{resumo.reduce((total, valor) => total + valor.price, 0)} reais</strong></p> */}
-
+        <p className='total'>Valor Total do Pedido: <strong>{total} reais</strong></p>
         <p>Preencha os campos abaixo para concluir</p>
         <Input class ='input' label='Nome: ' type='text' value={client} 
           handleChange={e => setClient(e.currentTarget.value)} holder='nome do cliente' />
         <Input class ='input' label='Mesa: ' type='number' value={table} 
           handleChange={e => setTable(e.currentTarget.value)} holder='digite o número da mesa' />
-        <Button class="order-btn" handleClick={onSubmit} title="Enviar Pedido"/>
+        <Button class="order-btn" handleClick={sendOrder} title="Enviar Pedido"/>
 
       </div>
     </>
