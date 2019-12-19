@@ -5,6 +5,8 @@ import Title from '../components/title';
 import Input from '../components/input';
 import Item from '../components/itens';
 
+import './menu.css';
+
 function Menu() {
   const [itens1, setItens1] = useState([]);
   const [itens2, setItens2] = useState([]);
@@ -44,7 +46,8 @@ function Menu() {
         resumo,
         total,
         client, 
-        table: parseInt(table)
+        table: parseInt(table),
+        dateHour: new Date().toLocaleString('pt-BR')
       })
       .then(() => {
         setResumo([])
@@ -86,11 +89,10 @@ function Menu() {
 
   return (
     <>
-
       <div className='menu'>
       <Title class='title-menu' title='Cardápio'/>
-      <Button class='option-btn' handleClick={() => setMenu(true)} title='Breakfast'/>
-      <Button class='option-btn' handleClick={() => setMenu(false)} title='All Day'/>
+      <Button class='category-btn' handleClick={() => setMenu(true)} title='Breakfast'/>
+      <Button class='category-btn' handleClick={() => setMenu(false)} title='All Day'/>
   
         {menu ? 
           <>
@@ -98,16 +100,34 @@ function Menu() {
               <Item function={() => addItem(item)} name={item.name} price={item.price}/>
             )}
           </>
-
         : 
-       
           <>
 
             <> <Title class='title-primary' title='Hambúrgueres'/>
               {itens2.map((item) => 
                 item.type === 'burger' ?
-                <Item function={() => addItem(item)} name={item.name} price={item.price}/> : false
-                // <Input type='radio' name={item.meet} />                
+                <>
+                  <button className='burger-btn'>
+                    {item.meet.map((op) =>
+                      <>
+                        <input type="radio" name={item.name} value={op} checked />{op} 
+                      </>
+                    )}
+                    {item.add.map((op) =>
+                      <>
+                        <p><input type="checkbox" name={item.name} value={op} />{op} + R$ 1,00</p>
+                      {/* {op.checked} ? {item.price += 1} : {item.price}  */}
+                      </>
+                    )}
+                  <Button class='itens-btn' handleClick={() => addItem(item)} title={
+                    <>
+                    <Title class='title-secondary' title={item.name}/>
+                    <Title class='title-tertiary' title={item.price} addtitle=' reais'/>
+                    </> } addtitle='Adicionar' 
+                  />
+                  </button>
+                </>
+                : false
               )}
             </>
 
@@ -137,12 +157,14 @@ function Menu() {
             <div>
               <Button class='resumo-itens-btn' title={
                 <>
-                Qtd: {item.count}
+                <Title class='title-resumo' title={item.name} 
+                  addtitle={' - valor total: R$ '+item.price*item.count+',00'}/>
+                Qtd:
                 <Button class='' handleClick={() =>reduceItem(item)} title='-'/>
+                 {item.count}  
                 <Button class='' handleClick={() =>addItem(item)} title='+'/>
                 <Button class='' handleClick={() =>delItem(item)} title='Delete'/>
-                <Title class='title-resumo' title={item.name} 
-                  addtitle={'valor total: R$ '+item.price*item.count+',00'}/> 
+                 
                 
                 </>
               }/>
@@ -166,7 +188,6 @@ function Menu() {
 
       </div>
     </>
-    
   )
 }
 

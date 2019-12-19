@@ -15,7 +15,7 @@ function App() {
     <div className='App'>
       <Router>
       <>
-        <button><Link to="/">Home</Link></button>
+        <button class='home-btn'><Link to="/">←</Link></button>
 
         <Switch>
           <Route exact path="/" component={Home} />

@@ -7,8 +7,8 @@ function Home() {
 
   return (
     <>
-      <Button class='home-btn' title={<Link to="/menu">Menu</Link>} />
-      <Button class='home-btn' title={<Link to="/kitchen">Kitchen</Link>} />
+      <Button class='category-btn' title={<Link to="/menu">Menu</Link>} />
+      <Button class='category-btn' title={<Link to="/kitchen">Kitchen</Link>} />
     </>
   );
 }

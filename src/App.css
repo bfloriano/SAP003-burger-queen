@@ -5,143 +5,22 @@
   align-items: flex-start;
 }
 
-.menu {
-  border: solid 2px #FFE4B5;
-  width: 60%;
-  text-align: center;
-  margin: 7px;
-  /* height: 300px; */
-  /* display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start; */
-}
-
-.resumo {
-  border: solid 2px #FFE4B5;
-  width: 40%;
-  text-align: center;
-  align-self: flex-start;
-  padding: 5px;
-  margin: 7px;
-}
-
-/* 768 px */
-.option-btn {
-  height: 100px;
-  width: 180px;
+.home-btn {
+  height: 30px;
+  width: 30px;
   border: none;
   border-radius: 10px;
-  background: #F4A460;
-  padding: 10px;
-  margin: 10px;
-  font: bolder 26px Arial;
+  background: #A61B0F;
+  margin: 5px;
+  font: bolder 12px Arial;
   color: white;
-}
-
-/* 600 px*/
-/* 
-.option-btn {
-  width: 150px;
-  margin: 5px;
-} */
-
-
-.itens-btn {
-  border: none;
-  background: rgba(255, 243, 199, 0.808);
-  border-radius: 10px;
-  width: 180px;
-  margin: 10px;
-  padding: 5px;
-  height:150px;
-  font: italic 20px Arial;
-  color: rgb(209, 114, 114);
-}
-
-.resumo-itens-btn {
-  border: none;
-  background: rgba(219, 219, 219, 0.644);
-  border-radius: 5px;
-  width: 250px;
-  margin: 5px;
-  padding: 0px;
-  height:60px;
   
 }
 
-.order-btn {
-  border: none;
-  background: #FFE4B5;
-  border-radius: 10px;
-  width: 200px;
-  margin: 10px;
-  height:100px;
-  font: bold 20px Arial;
-}
 
-.home-btn {
-  height: 100px;
-  width: 180px;
-  border: none;
-  border-radius: 10px;
-  background: rgb(27, 25, 24);
-  padding: 10px;
-  margin: 10px;
-  font: bolder 26px Arial;
-  color: white;
-}
-
-.title-menu {
-  font: bolder 28px Arial;
-  color: rgb(90, 67, 2);
-}
-
-.title-primary {
-  font: normal 22px Arial;
-  color: rgb(90, 67, 2);
-}
-
-.title-secondary {
-  color: #999;
-  font: bolder 16px Arial;
-  text-align: center;
-  padding: 2px;
-  /* justify-content: start; */
-}
-
-.title-tertiary {
-  font: normal 16px Arial;
-  color: #999;
-}
-
-.title-resumo {
-  font: normal 12px Arial;
-  color: rgb(22, 22, 22);
-
-}
-
-.input {
-  text-align: right;
-  margin-right: 35px;
-}
-
-.total {
-  border: solid 3px rgb(172, 0, 0);
-  background: rgba(134, 0, 0, 0.096);
-  padding: 20px ;
-  color: rgb(31, 16, 16);
-}
-
-/* .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-} */
-
-
+/* Color Theme Swatches in Hex */
+.{ color: #A61B0F; }
+.{ color: rgba(242, 187, 32, 0.7); }
+.{ color: rgb(65, 65, 65);; }
+.{ color: rgb(202, 202, 202); }
+.{ color: rgb(248, 248, 248); }
