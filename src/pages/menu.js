@@ -36,6 +36,9 @@ function Menu() {
   const [total, setTotal] = useState(0);
   const [client, setClient] = useState('')
   const [table, setTable] = useState('')
+  const [option, setOption] = useState('')
+  // const [extra, setExtra] = useState([])
+  // const [opcionais, setOpcionais] = useState([])
 
   function sendOrder(e) {
     e.preventDefault()
@@ -75,10 +78,22 @@ function Menu() {
     if(!resumo.includes(item)){
       item.count = 1
       setResumo([...resumo, item])
+
     } else {
       item.count += 1
       setResumo([...resumo])
     }
+    setTotal(total + (item.price));
+  }
+
+  const addBurger = (item) => {
+      item.count = 1
+      // item.addExtra = ([...extra])
+      item.meetSelect = option
+      setResumo([...resumo, item])
+      setOption('')
+      // setExtra([])
+      
     setTotal(total + (item.price));
   }
   
@@ -127,21 +142,21 @@ function Menu() {
 
                     {item.meet.map((op) =>
                       <>
-                        <input type="radio" name={item.name} value={op} id={op + item.id} checked />{op} 
-                        {console.log(op)}
+                        <input type="radio" name={item.name} value={op} id={op + item.id} 
+                          onClick={() => setOption(op)} />{op}                  
                       </>
                     )}
 
-                    {item.add.map((extra) =>
+                    {/* {item.add.map((extra) =>
                       <>
-                        <p><input type="checkbox" name={item.name} value={extra} id={extra + item.id} />{extra} + R$ 1,00</p>
+                        <p><input type="checkbox" name={item.name} value={extra} id={extra + item.id}
+                          onChange={() => setExtra([extra])} />{extra} + R$ 1,00</p>
                       </>
-                    )}
+                    )} */}
 
 
 
-                    
-                  <Button class='itens-btn' handleClick={() => addItem(item)} title={
+                  <Button class='itens-btn' handleClick={() => addBurger(item)} title={
                     <>
                     <Title class='title-secondary' title={item.name}/>
                     <Title class='title-tertiary' title={item.price} addtitle=' reais'/>
