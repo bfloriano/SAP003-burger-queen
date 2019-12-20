@@ -12,6 +12,13 @@ function Menu() {
   const [itens2, setItens2] = useState([]);
   const [menu, setMenu] = useState();
 
+  const [resumo, setResumo] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [client, setClient] = useState('')
+  const [table, setTable] = useState('')
+  const [option, setOption] = useState('bovino')
+  const [extra, setExtra] = useState([])
+
   useEffect(() => {
     firebase
       .firestore().collection('menu').where('category', '==', 'breakfast')
@@ -20,26 +27,16 @@ function Menu() {
         setItens1((currentState) => [...currentState, doc.data()])
         })
       })
+      firebase
+        .firestore().collection('menu').where('category', '==', 'allday') 
+        .get().then(snapshot => {
+          snapshot.forEach(doc => {
+            setItens2((currentState) => [...currentState, doc.data()])
+            })
+          })
   }, [])
 
-  useEffect(() => {
-    firebase
-      .firestore().collection('menu').where('category', '==', 'allday') 
-      .get().then(snapshot => {
-        snapshot.forEach(doc => {
-          setItens2((currentState) => [...currentState, doc.data()])
-          })
-        })
-    }, [])
-
-  const [resumo, setResumo] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [client, setClient] = useState('')
-  const [table, setTable] = useState('')
-  const [option, setOption] = useState('')
-  // const [extra, setExtra] = useState([])
-  // const [opcionais, setOpcionais] = useState([])
-
+  
   function sendOrder(e) {
     e.preventDefault()
 
@@ -60,15 +57,12 @@ function Menu() {
         setTable('')
       })
     }
-
     else if (!resumo.length) {
       alert('Selecione ao menos um produto para gerar o pedido')
     }
-
     else if (!table) {
       alert('Por favor, insira o número da mesa')
     }
-
     else if (!client) {
       alert('Por favor, insira o nome do cliente')
     }
@@ -87,14 +81,11 @@ function Menu() {
   }
 
   const addBurger = (item) => {
-      item.count = 1
-      // item.addExtra = ([...extra])
-      item.meetSelect = option
-      setResumo([...resumo, item])
-      setOption('')
-      // setExtra([])
+      setResumo([...resumo, {...item, count: 1, meetSelect: option, addExtra: extra}])
+      setOption('bovino')
+      setExtra([])
+      setTotal(total + (item.price) + (extra.length));
       
-    setTotal(total + (item.price));
   }
   
   const delItem = (item) => {
@@ -116,89 +107,81 @@ function Menu() {
     }
   }
 
+  const handleCheckbox = (adicional) => {
+    const index = extra.indexOf(adicional);
+    if (index === -1) {
+      setExtra([...extra, adicional]);
+    } else {
+      setExtra(extra.filter(item => item !== adicional))
+    }
+  }
+
+  const renderBreakfastItens = () => {
+    return itens1.map((item, index) =>
+      <Item key={index} function={() => addItem(item)} name={item.name} price={item.price}/>
+    );
+  }
+
+  const renderLunchItens = () => {
+    return (
+      <>
+        <Title class='title-primary' title='Hambúrgueres' />
+        {itens2.map((item, index) =>
+          item.type === 'burger' ?
+            <div key={index}>
+              <div className='burger-btn'>
+                {item.meet.map((op, index) =>
+                  <span key={index}>
+                    <input type="radio" name={item.name} value={op} id={op + item.id}
+                      onChange={() => setOption(op)} checked={op === option} />{op}
+                  </span>
+                )}
+                {item.add.map((adicional, index) =>
+                  <p key={index}><input type="checkbox" name={item.name} value={adicional} id={adicional + item.id}
+                    onChange={() => handleCheckbox(adicional)} checked={extra.includes(adicional)}
+                  />{adicional} + R$ 1,00</p>
+                )}
+                <Button class='itens-btn' handleClick={() => addBurger(item)} title={
+                  <>
+                    <Title class='title-secondary' title={item.name} />
+                    <Title class='title-tertiary' title={item.price} addtitle=' reais' />
+                  </>} addtitle='Adicionar'
+                />
+              </div>
+            </div>
+            : null
+        )}
+        <Title class='title-primary' title='Acompanhamentos' />
+        { itens2.map((item, index) =>
+            item.type === 'acomp' ?
+              <Item key={index} function={() => addItem(item)} name={item.name} price={item.price} /> : null
+        )}
+        <Title class='title-primary' title='Bebidas' />
+        {itens2.map((item, index) =>
+          item.type === 'drink' ?
+            <Item key={index} function={() => addItem(item)} name={item.name} price={item.price} /> : false
+        )}
+      </>
+
+    );
+}
   return (
     <>
       <div className='menu'>
-      <Title class='title-menu' title='Cardápio'/>
-      <Button class='category-btn' handleClick={() => setMenu(true)} title='Breakfast'/>
-      <Button class='category-btn' handleClick={() => setMenu(false)} title='All Day'/>
-  
-        {menu ? 
-          <>
-            {itens1.map((item) =>
-              <Item function={() => addItem(item)} name={item.name} price={item.price}/>
-            )}
-          </>
-        : 
-          <>
-
-            <> <Title class='title-primary' title='Hambúrgueres'/>
-              {itens2.map((item) => 
-                item.type === 'burger' ?
-                <>
-                  <button className='burger-btn'>
-
-
-
-                    {item.meet.map((op) =>
-                      <>
-                        <input type="radio" name={item.name} value={op} id={op + item.id} 
-                          onClick={() => setOption(op)} />{op}                  
-                      </>
-                    )}
-
-                    {/* {item.add.map((extra) =>
-                      <>
-                        <p><input type="checkbox" name={item.name} value={extra} id={extra + item.id}
-                          onChange={() => setExtra([extra])} />{extra} + R$ 1,00</p>
-                      </>
-                    )} */}
-
-
-
-                  <Button class='itens-btn' handleClick={() => addBurger(item)} title={
-                    <>
-                    <Title class='title-secondary' title={item.name}/>
-                    <Title class='title-tertiary' title={item.price} addtitle=' reais'/>
-                    </> } addtitle='Adicionar' 
-                  />
-                  </button>
-                </>
-                : false
-              )}
-            </>
-
-            <> <Title class='title-primary' title='Acompanhamentos'/>
-              {itens2.map((item) => 
-                item.type === 'acomp' ?
-                <Item function={() => addItem(item)} name={item.name} price={item.price}/> : false
-              )}
-            </>
-
-            <> <Title class='title-primary' title='Bebidas'/>
-              {itens2.map((item) => 
-                item.type === 'drink' ? 
-                <Item function={() => addItem(item)} name={item.name} price={item.price}/> : false
-              )}
-            </>
-          </>
-        }
+        <Title class='title-menu' title='Cardápio'/>
+        <Button class='category-btn' handleClick={() => setMenu(true)} title='Breakfast'/>
+        <Button class='category-btn' handleClick={() => setMenu(false)} title='All Day'/>
+        { menu ? renderBreakfastItens() : renderLunchItens() }
       </div>
-
       <div className='resumo'>
-        
-        {resumo.map((item) =>
-          <div>
-            <Button class='resumo-itens-btn' title={
-              <>
-                <Title class='title-resumo' title={item.name} 
-                  addtitle={' - valor total: R$ '+item.price*item.count+',00'}/>
-                  Qtd:
-                  <Button class='' handleClick={() =>reduceItem(item)} title='-'/>{item.count}  
-                  <Button class='' handleClick={() =>addItem(item)} title='+'/>
-                  <Button class='' handleClick={() =>delItem(item)} title='Delete'/>
-              </>
-            }/>
+        {resumo.map((item, index) =>
+          <div key={index} className='resumo-itens-btn'>
+            <Title class='title-resumo' title={item.name} 
+              addtitle={' - valor total: R$ '+item.count*(item.price+ item.addExtra.length)+',00'}/>
+            Qtd:
+            <Button class='' handleClick={() =>reduceItem(item)} title='-'/>{item.count}  
+            <Button class='' handleClick={() =>addItem(item)} title='+'/>
+            <Button class='' handleClick={() =>delItem(item)} title='Delete'/>
           </div>
         )}
 
