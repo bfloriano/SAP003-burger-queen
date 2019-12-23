@@ -1,9 +1,9 @@
 import React from 'react';
-import Title from './title';
-import Button from './button';
+import Title from '../title';
+import Button from '../button';
 // import Input from './input';
 
-function Item (props) {
+function CardItem (props) {
   return (
     <>
       <Button class='itens-btn' handleClick={props.function} title={
@@ -17,4 +17,4 @@ function Item (props) {
   );
 }
 
-export default Item
+export default CardItem
