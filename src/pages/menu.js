@@ -71,6 +71,7 @@ function Menu() {
   const addItem = (item) => {
     if(!resumo.includes(item)){
       item.count = 1
+      item.addExtra = []
       setResumo([...resumo, item])
 
     } else {
@@ -177,7 +178,7 @@ function Menu() {
         {resumo.map((item, index) =>
           <div key={index} className='resumo-itens-btn'>
             <Title class='title-resumo' title={item.name} 
-              addtitle={' - valor total: R$ '+item.count*(item.price+ item.addExtra.length)+',00'}/>
+              addtitle={' - valor total: R$ '+item.count*(item.price+ (item.addExtra.length))+',00'}/>
             Qtd:
             <Button class='' handleClick={() =>reduceItem(item)} title='-'/>{item.count}  
             <Button class='' handleClick={() =>addItem(item)} title='+'/>
