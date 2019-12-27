@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { StyleSheet, css } from 'aphrodite';
 import firebase from '../Utils/firebase';
 import Button from '../components/button';
 import Title from '../components/title';
@@ -6,7 +7,99 @@ import Input from '../components/input';
 import RenderBreakfastItens from '../components/menu/breakfastItens';
 import RenderAllDayItens from '../components/menu/alldayItens';
 
-import './menu.css';
+const styles = StyleSheet.create({
+  menu: {
+    border: 'solid 2px #A61B0F',
+    width: '60%',
+    textAlign: 'center',
+    margin: '7px',
+  },
+
+  flex: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+
+  resumo: {
+    border: 'solid 2px #A61B0F',
+    textAlign: 'center',
+    margin: '7px',
+    width: '40%',
+    alignSelf: 'flex-start',
+    padding: '5px',
+  },
+
+  titleMenu: {
+    font: 'bolder 30px Arial',
+    color: '#A61B0F',
+  },
+
+  btnCategory: {
+    height: '100px',
+    width: '180px',
+    border: 'none',
+    borderRadius: '10px',
+    background: '#A61B0F',
+    padding: '10px',
+    margin: '10px',
+    font: 'bolder 30px Arial',
+    color: '#F2F2F2',
+  },
+
+  btnItensResumo: {
+    height: '60px',
+    width: '350px',
+    border: 'none',
+    borderRadius: '5px',
+    background: 'rgb(226, 223, 181)',
+    padding: '0px',
+    margin: '5px',
+  },
+
+  titleItensResumo: {
+    font: 'normal 14px Arial',
+    color: 'rgb(0, 0, 0)',
+  },
+
+  totalResumo: {
+    font: 'bold 20px Arial',
+    color: '#A61B0F',
+    padding: '20px',
+    border: 'double 0.5px rgb(245, 245, 245)',
+    background: 'rgba(242, 187, 32, 0.09)',
+  },
+
+  input: {
+    font: 'normal 16px Arial',
+    textAlign: 'right',
+    marginRight: '35px',
+  },
+
+  btnOrder: {
+    height: '100px',
+    width: '200px',
+    border: 'none',
+    borderRadius: '10px',
+    background: '#A61B0F',
+    margin: '10px',
+    marginTop: '25px',
+    font: 'bold 24px Arial',
+  },
+
+  // hover: {
+  //     ':hover': {
+  //         backgroundColor: 'red'
+  //     }
+  // },
+
+
+  // small: {
+  //     '@media (max-width: 600px)': {
+  //         backgroundColor: 'red',
+  //     }
+  // }
+});    
 
 function Menu() {
   const [itens1, setItens1] = useState([]);
@@ -116,20 +209,20 @@ function Menu() {
 
   return (
     <>
-      <div className='menu'>
-        <Title class='title-menu' title='Cardápio' />
-        <Button class='category-btn' handleClick={() => setMenu(true)} title='Breakfast' />
-        <Button class='category-btn' handleClick={() => setMenu(false)} title='All Day' />
+      <div className={css(styles.menu)}>
+        <Title class={css(styles.titleMenu)} title='Cardápio' />
+        <Button class={css(styles.btnCategory)} handleClick={() => setMenu(true)} title='Breakfast' />
+        <Button class={css(styles.btnCategory)} handleClick={() => setMenu(false)} title='All Day' />
 
-        {menu ? <RenderBreakfastItens state={itens1} function={addItem} /> :
-          <RenderAllDayItens state={itens2} state2={option} setState2={setOption} state3={extra}
-            function1={handleCheckbox} function2={addBurger} function3={addItem} />}
+        {menu ? <div className={css(styles.flex)}><RenderBreakfastItens state={itens1} function={addItem} /></div>
+         : <RenderAllDayItens state={itens2} state2={option} setState2={setOption} 
+            state3={extra} function1={handleCheckbox} function2={addBurger} function3={addItem} /> }
       </div>
 
-      <div className='resumo'>
+      <div className={css(styles.resumo)}>
         {resumo.map((item, index) =>
-          <div key={index} className='resumo-itens-btn'>
-            <Title class='title-resumo' title={item.name}
+          <div key={index} className={css(styles.btnItensResumo)}>
+            <Title class={css(styles.titleItensResumo)} title={item.name}
               addtitle={' - valor total: R$ ' + item.count * (item.price + (item.addExtra.length)) + ',00'} />
             Qtd:
             <Button class='' handleClick={() => reduceItem(item)} title='-' />{item.count}
@@ -138,13 +231,13 @@ function Menu() {
           </div>
         )}
 
-        <p className='total'>Valor Total do Pedido: <strong>{total} reais</strong></p>
+        <p className={css(styles.totalResumo)}>Valor Total do Pedido: <strong>{total} reais</strong></p>
         <p>Preencha os campos abaixo para concluir</p>
-        <Input class='input' label='Nome: ' type='text' value={client}
+        <Input class={css(styles.input)} label='Nome: ' type='text' value={client}
           handleChange={e => setClient(e.currentTarget.value)} holder='nome do cliente' />
-        <Input class='input' label='Mesa: ' type='number' value={table}
+        <Input class={css(styles.input)} label='Mesa: ' type='number' value={table}
           handleChange={e => setTable(e.currentTarget.value)} holder='digite o número da mesa' />
-        <Button class="order-btn" handleClick={sendOrder} title="Enviar Pedido" />
+        <Button class={css(styles.btnOrder)} handleClick={sendOrder} title="Enviar Pedido" />
 
       </div>
     </>
