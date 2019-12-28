@@ -85,15 +85,18 @@ const styles = StyleSheet.create({
     margin: '10px',
     marginTop: '25px',
     font: 'bold 24px Arial',
+      // ':hover': {
+      //     color: 'red'
+      // },
+      // 'focus': {
+      //   color: 'blue'
+      // },
+      // 'active': {
+      //   color: 'blue'
+      // },
   },
 
-  // hover: {
-  //     ':hover': {
-  //         backgroundColor: 'red'
-  //     }
-  // },
-
-
+  
   // small: {
   //     '@media (max-width: 600px)': {
   //         backgroundColor: 'red',
@@ -107,10 +110,10 @@ function Menu() {
   const [menu, setMenu] = useState();
   const [resumo, setResumo] = useState([]);
   const [total, setTotal] = useState(0);
-  const [client, setClient] = useState('')
-  const [table, setTable] = useState('')
-  const [option, setOption] = useState('bovino')
-  const [extra, setExtra] = useState([])
+  const [client, setClient] = useState('');
+  const [table, setTable] = useState('');
+  const [option, setOption] = useState('bovino');
+  const [extra, setExtra] = useState([]);
 
   useEffect(() => {
     firebase
@@ -139,7 +142,10 @@ function Menu() {
           total,
           client,
           table: parseInt(table),
-          dateHour: new Date().toLocaleString('pt-BR')
+          hourSend: new Date().toLocaleString('pt-BR'),
+          status: 'andamento',
+          id: require("crypto").randomBytes(10).toString('hex'),
+          // user_uid: firebase.auth().currentUser.uid,
         })
         .then(() => {
           setResumo([])
