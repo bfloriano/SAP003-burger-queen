@@ -17,50 +17,56 @@ const styles = StyleSheet.create({
 function Kitchen() {
 
   const [order, setOrder] = useState([]);
-  const [status, setStatus] = useState('andamento');
+  // const [status, setStatus] = useState('andamento');
 
   useEffect(() => {
     firebase
       .firestore().collection('Orders')
-      // .where('status', '==', 'andamento')
       .orderBy('hourSend', 'asc')
-      .get().then(snapshot => {
-        snapshot.forEach(doc => {
-        setOrder((currentState) => [...currentState, doc.data()])
-        })
+      .onSnapshot((snap) => {
+        const list = snap.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setOrder(list)
       })
 
   }, [])
 
-    const confirm = (event) => {
-      setStatus('pronto');
-      
-        // const id = event.currentTarget.dataset.id;
-        // .getToken()
 
-        // firebase
-        //   .firestore().collection('Orders').doc().update({
-        //     status,           
-        //     })
-      
+  const confirm = (item) => {
+
+    firebase
+      .firestore().collection('Orders').doc(item.id).update({
+        status: 'pronto',
+        hourDone: new Date().toLocaleString('pt-BR'),
+      })
+      .then(() => {
+        // setStatus('pronto');
+        console.log('update');
+      })
+
   }
-  
+
 
 
   return (
     <>
       {order.map((item, index) => 
-      <div key={index} className={css(styles.order)}>
-        <h3>{item.client}</h3><button onClick={() => confirm(item)}>pronto</button>     
-        
-        {item.resumo.map((products, index) =>
-          <div key={index} className={css(styles.item)}>
-            <h3>{products.count} - {products.name}</h3>
-            <p>{products.meetSelect}</p>
-            <p>{products.addExtra}</p>
-         
-          </div>
-        )}
+      <div key={index} >
+      {item.status === 'andamento' ?
+        <div className={css(styles.order)}>
+          <h3>{item.client}</h3>     
+            {item.resumo.map((products, index) =>
+              <div key={index} className={css(styles.item)}>
+                <h3>{products.count} - {products.name}</h3>
+                <p>{products.meetSelect}</p>
+                <p>{products.addExtra}</p>
+              </div>)}
+            <button onClick={() => confirm(item)}>pronto</button>     
+        </div>
+      : null}
+
       </div>
       )}   
     </>

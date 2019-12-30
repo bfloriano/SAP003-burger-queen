@@ -20,12 +20,13 @@ function Delivery() {
   useEffect(() => {
     firebase
       .firestore().collection('Orders')
-      // .where('status', '==', 'pronto')
       .orderBy('hourDone', 'asc')
-      .get().then(snapshot => {
-        snapshot.forEach(doc => {
-          setDelivery((currentState) => [...currentState, doc.data()])
-        })
+      .onSnapshot((snap) => {
+        const list = snap.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setDelivery(list)
       })
   }, [])
 
@@ -33,20 +34,27 @@ function Delivery() {
   return (
     <div>
       <h2>Pronto para a Entrega</h2>
-      {delivery.map((item, index) =>
-        <div key={index} className={css(styles.order)}>
-          <h3>{item.client} - {item.table}<button>entregue!</button></h3>
-          {item.resumo.map((itens, index) =>
-            <div key={index}>
-              {itens.type === 'burger' ?
-                <p>{itens.name}{' /' + itens.meetSelect}{' com adicional: ' + itens.addExtra} - Qtd:{itens.count} </p>
-                :
-                <p>{itens.name} - Qtd:{itens.count} </p>
-              }
 
+        {delivery.map((item, index) =>
+        <div key={index} className={css(styles.order)}>
+          {item.status === 'pronto' ?
+            <div>
+              <h3>{item.client} - {item.table}</h3>
+                {item.resumo.map((itens, index) =>
+                  <div key={index}>
+                    {itens.type === 'burger' ?
+                      <p>{itens.name}{' /' + itens.meetSelect}{' com adicional: ' + itens.addExtra} - Qtd:{itens.count} </p>
+                    :
+                      <p>{itens.name} - Qtd:{itens.count} </p>}
+                  </div> 
+                )}
+              <button>entregue!</button> 
             </div>
-          )}
-        </div>)}
+          : null }
+
+        </div>
+        )}
+          
 
     </div>
   );

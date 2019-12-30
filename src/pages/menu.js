@@ -144,7 +144,7 @@ function Menu() {
           table: parseInt(table),
           hourSend: new Date().toLocaleString('pt-BR'),
           status: 'andamento',
-          id: require("crypto").randomBytes(10).toString('hex'),
+          // id: require("crypto").randomBytes(10).toString('hex'),
           // user_uid: firebase.auth().currentUser.uid,
         })
         .then(() => {
