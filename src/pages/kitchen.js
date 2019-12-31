@@ -38,7 +38,7 @@ function Kitchen() {
 
     firebase
       .firestore().collection('Orders').doc(item.id).update({
-        status: 'pronto',
+        status: 'toDeliver',
         hourDone: new Date().toLocaleString('pt-BR'),
       })
       .then(() => {
@@ -54,7 +54,7 @@ function Kitchen() {
     <>
       {order.map((item, index) => 
       <div key={index} >
-      {item.status === 'andamento' ?
+      {item.status === 'inProgress' ?
         <div className={css(styles.order)}>
           <h3>{item.client}</h3>     
             {item.resumo.map((products, index) =>

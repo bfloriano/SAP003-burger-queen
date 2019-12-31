@@ -30,6 +30,18 @@ function Delivery() {
       })
   }, [])
 
+  const conclud = (item) => {
+
+    firebase
+      .firestore().collection('Orders').doc(item.id).update({
+        status: 'concluded',
+        hourDelivered: new Date().toLocaleString('pt-BR'),
+      })
+      .then(() => {
+        console.log('finish');
+      })
+
+  }
 
   return (
     <div>
@@ -37,7 +49,7 @@ function Delivery() {
 
         {delivery.map((item, index) =>
         <div key={index} className={css(styles.order)}>
-          {item.status === 'pronto' ?
+          {item.status === 'toDeliver' ?
             <div>
               <h3>{item.client} - {item.table}</h3>
                 {item.resumo.map((itens, index) =>
@@ -48,7 +60,7 @@ function Delivery() {
                       <p>{itens.name} - Qtd:{itens.count} </p>}
                   </div> 
                 )}
-              <button>entregue!</button> 
+              <button onClick={() => conclud(item)}>entregue!</button> 
             </div>
           : null }
 
