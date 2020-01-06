@@ -142,7 +142,10 @@ function Menu() {
           total,
           client,
           table: parseInt(table),
-          hourSend: new Date().toLocaleString('pt-BR'),
+          hourSend: new Date(),
+          hourS: new Date().getHours(),
+          minS: new Date().getMinutes(),
+          secS: new Date().getSeconds(),
           status: 'inProgress',
         })
         .then(() => {
