@@ -142,10 +142,11 @@ function Menu() {
           total,
           client,
           table: parseInt(table),
-          hourSend: new Date(),
-          hourS: new Date().getHours(),
-          minS: new Date().getMinutes(),
-          secS: new Date().getSeconds(),
+          timeSend: new Date(),
+          timeDateS: new Date().getDate(),
+          timeHourS: new Date().getHours(),  // hourS: 23,
+          timeMinS: new Date().getMinutes(),
+          timeSecS: new Date().getSeconds(),
           status: 'inProgress',
         })
         .then(() => {
@@ -222,8 +223,8 @@ function Menu() {
         <Button class={css(styles.btnCategory)} handleClick={() => setMenu(false)} title='All Day' />
 
         {menu ? <div className={css(styles.flex)}><RenderBreakfastItens state={itens1} function={addItem} /></div>
-         : <RenderAllDayItens state={itens2} state2={option} setState2={setOption} 
-            state3={extra} function1={handleCheckbox} function2={addBurger} function3={addItem} /> }
+              : <RenderAllDayItens state={itens2} state2={option} setState2={setOption} state3={extra} 
+                function1={handleCheckbox} function2={addBurger} function3={addItem} /> }
       </div>
 
       <div className={css(styles.resumo)}>
@@ -245,7 +246,6 @@ function Menu() {
         <Input class={css(styles.input)} label='Mesa: ' type='number' value={table}
           handleChange={e => setTable(e.currentTarget.value)} holder='digite o número da mesa' />
         <Button class={css(styles.btnOrder)} handleClick={sendOrder} title="Enviar Pedido" />
-
       </div>
     </>
   )

@@ -3,14 +3,65 @@ import { StyleSheet, css } from 'aphrodite';
 import firebase from '../Utils/firebase';
 
 const styles = StyleSheet.create({
-  order: {
-    background: 'rgba(242, 187, 32, 0.7)',
-    width: '300px',
-    textAlign: 'center',
+  flex: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
-  item: {
-    border: 'solid 0.5px white',
-  }
+  order: {
+    borderRadius: '25px',
+    background: 'rgba(242, 187, 32, 0.7)',
+    width: '500px',
+    // height: '500px',
+    textAlign: 'center',
+    paddingLeft: '20px',
+    paddingRight: '20px',
+    margin: '5px',
+    marginLeft: '100px',
+    marginRight: '100px',
+  },
+  title: {
+    // textAlign: 'center',
+    // alignSelf: 'center',
+    paddingTop: '5px',
+    color: '#A61B0F',
+    font: 'normal 16px Arial',
+    borderBottom: 'solid 0.02px white',
+  },
+  bodyItens: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+
+  },
+  itens: {
+    // borderBottom: 'solid 0.05px white',
+    display: 'flex',
+    flexDirection: 'column',
+    width: '200px',
+    // borderTop: 'solid 0.02px white',
+    font: 'normal 12px Arial',
+    textAlign: 'left',
+  },
+  button: {
+    // textAlign: 'right',
+    paddingTop: '10px',
+    border: 'none',
+    borderRadius: '5px',
+    height: '50px',
+    width: '100px',
+    background: '#A61B0F',
+    color: 'white',
+    font: 'bolder 14px Arial',
+    marginLeft: '85px',
+    // margin: '5px',
+
+  },
+  time: {
+    borderTop: 'solid 0.02px white',
+    font: 'normal 14px Arial',
+  },
+
 });
 
 function Delivery() {
@@ -19,8 +70,7 @@ function Delivery() {
 
   useEffect(() => {
     firebase
-      .firestore().collection('Orders')
-      .orderBy('hourDone', 'asc')
+      .firestore().collection('Orders').orderBy('timeDone', 'asc')
       .onSnapshot((snap) => {
         const list = snap.docs.map((doc) => ({
           id: doc.id,
@@ -34,58 +84,80 @@ function Delivery() {
     firebase
       .firestore().collection('Orders').doc(item.id).update({
         status: 'concluded',
-        hourConclud: new Date(),
-        hourC: new Date().getHours(),
-        minC: new Date().getMinutes(),
-        secC: new Date().getSeconds(),
+        timeConclud: new Date(),
+        timeHourC: new Date().getHours(),
+        timeMinC: new Date().getMinutes(),
+        timeSecC: new Date().getSeconds(),
       })
       .then(() => {
         console.log('finish');
       })
-
   }
 
   const time = (item) => {
-    let seconds = (((item.hourD*3600)+(item.minD*60)+(item.secD)) - ((item.hourS*3600)+(item.minS*60)+(item.minS)))
-    
-    let horas = Math.floor(seconds/(60*60));
-    let resto = seconds % (60*60);
-    let minutos = Math.floor(seconds/60);
-    resto %= 60;
-    let segundos = Math.ceil(resto);
+    let seconds;
+    let rest;
 
-    let hora = [horas +' h, ', minutos + ' m e ', segundos +' s.']
-    return hora;
+    if (((item.timeDateS)) === ((item.timeDateD))) {
+      seconds = (((item.timeHourD * 3600) + (item.timeMinD * 60) + (item.timeSecD)) - ((item.timeHourS * 3600) + (item.timeMinS * 60) + (item.timeSecS)))
     }
+    else {
+      seconds = (((item.timeHourD * 3600) + (item.timeMinD * 60) + (item.timeSecD) + 86400) - ((item.timeHourS * 3600) + (item.timeMinS * 60) + (item.timeSecS)))
+    }
+
+    let horas = Math.floor(seconds / (60 * 60));
+    rest = seconds % (60 * 60);
+
+    let minutos = Math.floor(rest / 60);
+    rest %= 60;
+
+    let segundos = Math.ceil(rest);
+
+    let hora = [horas + ' h, ', minutos + ' m e ', segundos + ' s.']
+    return hora;
+  }
 
 
   return (
-    <div>
-      <h2>Pronto para a Entrega</h2>
+    <div className={css(styles.flex)}>
+      <h2>Pedidos Prontos para a Entrega</h2>
+      {delivery.map((item, index) =>
 
-        {delivery.map((item, index) =>
         <div key={index} className={css(styles.order)}>
           {item.status === 'toDeliver' ?
             <div>
-              <h3>{item.client} - {item.table}</h3>
-                {item.resumo.map((itens, index) =>
-                  <div key={index}>
-                    {itens.type === 'burger' ?
-                      <p>{itens.name}{' /' + itens.meetSelect}{' com adicional: ' + itens.addExtra} - Qtd:{itens.count} </p>
-                    :
-                      <p>{itens.name} - Qtd:{itens.count} </p>}                       
-                  </div> 
-                )}
-              <button onClick={() => conclud(item)}>entregue!</button> 
-              <div>O pedido ficou pronto em: {time(item)}</div>
+
+              <h3 className={css(styles.title)}>{'Mesa ' + item.table} - {item.client}</h3>
+
+
+              <div className={css(styles.bodyItens)}>
+
+                <div className={css(styles.itens)}>
+                  {item.resumo.map((itens, index) =>
+
+
+                    <div key={index} >
+
+                      {itens.type === 'burger' ?
+                        <p>Qtd:{itens.count} - {itens.name}{' /' + itens.meetSelect}{' com adicional: ' + itens.addExtra}</p>
+                        :
+                        <p>Qtd:{itens.count} - {itens.name}</p>}
+
+                    </div>
+                  )}
+                </div>
+
+                <button className={css(styles.button)} onClick={() => conclud(item)}>entregue!</button>
+              </div>
+
+
+              <div className={css(styles.time)}>O pedido ficou pronto em: {time(item)}</div>
               {console.log(time(item))}
+
             </div>
-          : null }
-
+            : null}
         </div>
-        )}
-          
-
+      )}
     </div>
   );
 }

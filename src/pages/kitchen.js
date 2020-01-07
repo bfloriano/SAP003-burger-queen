@@ -3,26 +3,58 @@ import { StyleSheet, css } from 'aphrodite';
 import firebase from '../Utils/firebase';
 
 const styles = StyleSheet.create({
+  flex: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   order: {
+    borderRadius: '25px',  
     background: 'rgba(242, 187, 32, 0.7)',
-    width: '300px',
+    width: '500px',
+    // height: '500px',
     textAlign: 'center',
-    margin: '5px',
+    paddingLeft: '20px',
+    paddingRight: '20px',
+    // margin: '5px',
+    marginLeft: '100px',
+    marginRight: '100px',
+  },
+  title: {
+    // textAlign: 'center',
+    // alignSelf: 'center',
+    paddingTop: '10px',
+    color: '#A61B0F',
+    font: 'normal 16px Arial',
+
   },
   item: {
-    border: 'solid 0.5px white',
-  }
+    borderBottom: 'solid 0.1px white',
+    borderTop: 'solid 0.1px white',
+    font: 'normal 20px Arial',
+    textAlign: 'left',
+  },
+  button: {
+    // justifyContent: 'center',
+    border: 'none',
+    borderRadius: '25px',
+    height: '100px',
+    width: '350px',
+    background: '#A61B0F',
+    color: 'white',
+    font: 'bolder 44px Arial',
+    margin: '10px',
+
+  },
 });
 
 function Kitchen() {
 
   const [order, setOrder] = useState([]);
-  // const [status, setStatus] = useState('andamento');
 
   useEffect(() => {
     firebase
-      .firestore().collection('Orders')
-      .orderBy('hourSend', 'asc')
+      .firestore().collection('Orders').orderBy('timeSend', 'asc')
       .onSnapshot((snap) => {
         const list = snap.docs.map((doc) => ({
           id: doc.id,
@@ -30,19 +62,18 @@ function Kitchen() {
         }))
         setOrder(list)
       })
-
   }, [])
 
   const confirm = (item) => {
 
-    
     firebase
     .firestore().collection('Orders').doc(item.id).update({
       status: 'toDeliver',
-      hourDone: new Date(),
-      hourD: new Date().getHours(),
-      minD: new Date().getMinutes(),
-      secD: new Date().getSeconds(),
+      timeDone: new Date(),
+      timeDateD: new Date().getDate(),   // dateD: 8,
+      timeHourD: new Date().getHours(),
+      timeMinD: new Date().getMinutes(),
+      timeSecD: new Date().getSeconds(),
     })
     .then(() => {
       console.log('uhul');
@@ -50,25 +81,42 @@ function Kitchen() {
   }
 
   return (
-    <>
+    <div className={css(styles.flex)}>
+      <h2>Pedidos</h2>
+
       {order.map((item, index) => 
-      <div key={index} >
+      <div key={index}>
+
       {item.status === 'inProgress' ?
         <div className={css(styles.order)}>
-          <h3>{item.client}</h3>     
+
+        <h3 className={css(styles.title)}>{item.client}{' Mesa: ' + item.table}</h3>     
             {item.resumo.map((products, index) =>
+
+
               <div key={index} className={css(styles.item)}>
-                <h3>{products.count} - {products.name}</h3>
-                <p>{products.meetSelect}</p>
-                <p>{products.addExtra}</p>
+                {products.type === 'burger' ?
+                <>
+                <h3>{'Qtd: ' + products.count} - {products.name}</h3>
+                <p>{'Hamburguer: ' + products.meetSelect}</p>
+                  {products.addExtra.length !== 0 ?
+                    <p>{'Com adicional: ' + products.addExtra}</p>
+                    : null
+                  }
+                </>
+                : 
+                <h3>{'Qtd: ' + products.count} - {products.name}</h3>
+                }
               </div>)}
-            <button onClick={() => confirm(item)}>pronto</button>     
+
+            <button className={css(styles.button)} onClick={() => confirm(item)}>OK</button> 
+
         </div>
       : null}
 
       </div>
       )}   
-    </>
+    </div>
   );
 }  
 
