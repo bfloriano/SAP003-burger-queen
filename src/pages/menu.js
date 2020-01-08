@@ -1,32 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import firebase from '../Utils/firebase';
+import RenderBreakfastItens from '../components/menu/breakfastItens';
+import RenderAllDayItens from '../components/menu/alldayItens';
 import Button from '../components/button';
 import Title from '../components/title';
 import Input from '../components/input';
-import RenderBreakfastItens from '../components/menu/breakfastItens';
-import RenderAllDayItens from '../components/menu/alldayItens';
 
 const styles = StyleSheet.create({
+  body: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
   menu: {
-    border: 'solid 2px #A61B0F',
+    borderStyle: 'double',
+    borderColor: '#A61B0F',
     width: '60%',
     textAlign: 'center',
-    margin: '7px',
+    margin: '5px',
   },
 
   flex: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center'
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
 
   resumo: {
-    border: 'solid 2px #A61B0F',
-    textAlign: 'center',
-    margin: '7px',
+    borderStyle: 'double',
+    borderColor: '#A61B0F',
     width: '40%',
-    alignSelf: 'flex-start',
+    textAlign: 'center',
+    margin: '5px',
+    marginLeft: '0px',
     padding: '5px',
   },
 
@@ -105,9 +112,9 @@ const styles = StyleSheet.create({
 });    
 
 function Menu() {
+  const [menu, setMenu] = useState();
   const [itens1, setItens1] = useState([]);
   const [itens2, setItens2] = useState([]);
-  const [menu, setMenu] = useState();
   const [resumo, setResumo] = useState([]);
   const [total, setTotal] = useState(0);
   const [client, setClient] = useState('');
@@ -132,41 +139,6 @@ function Menu() {
       })
   }, [])
 
-  const sendOrder = (e) => {
-    e.preventDefault()
-
-    if (resumo.length && table && client) {
-      firebase
-        .firestore().collection('Orders').add({
-          resumo,
-          total,
-          client,
-          table: parseInt(table),
-          timeSend: new Date(),
-          timeDateS: new Date().getDate(),
-          timeHourS: new Date().getHours(),  // hourS: 23,
-          timeMinS: new Date().getMinutes(),
-          timeSecS: new Date().getSeconds(),
-          status: 'inProgress',
-        })
-        .then(() => {
-          setResumo([])
-          setTotal(0)
-          setClient('')
-          setTable('')
-        })
-    }
-    else if (!resumo.length) {
-      alert('Selecione ao menos um produto para gerar o pedido')
-    }
-    else if (!table) {
-      alert('Por favor, insira o número da mesa')
-    }
-    else if (!client) {
-      alert('Por favor, insira o nome do cliente')
-    }
-  }
-
   const addItem = (item) => {
     if (!resumo.includes(item)) {
       item.count = 1
@@ -185,6 +157,15 @@ function Menu() {
     setOption('bovino')
     setExtra([])
     setTotal(total + (item.price) + (extra.length));
+  }
+
+  const handleCheckbox = (adicional) => {
+    const index = extra.indexOf(adicional);
+    if (index === -1) {
+      setExtra([...extra, adicional]);
+    } else {
+      setExtra(extra.filter(item => item !== adicional))
+    }
   }
 
   const delItem = (item) => {
@@ -206,18 +187,46 @@ function Menu() {
     }
   }
 
-  const handleCheckbox = (adicional) => {
-    const index = extra.indexOf(adicional);
-    if (index === -1) {
-      setExtra([...extra, adicional]);
-    } else {
-      setExtra(extra.filter(item => item !== adicional))
+  const sendOrder = (e) => {
+    e.preventDefault()
+
+    if (resumo.length && table && client) {
+      firebase
+        .firestore().collection('Orders').add({
+          resumo,
+          total,
+          client,
+          table: parseInt(table),
+          timeSend: new Date(),
+          timeDateS: new Date().getDate(),
+          timeHourS: new Date().getHours(),  
+          timeMinS: new Date().getMinutes(),
+          timeSecS: new Date().getSeconds(),
+          status: 'inProgress',
+        })
+        .then(() => {
+          setResumo([])
+          setTotal(0)
+          setClient('')
+          setTable('')
+          alert('Pedido enviado com sucesso')
+        })
+    }
+    else if (!resumo.length) {
+      alert('Selecione ao menos um produto para gerar o pedido')
+    }
+    else if (!table) {
+      alert('Por favor, insira o número da mesa')
+    }
+    else if (!client) {
+      alert('Por favor, insira o nome do cliente')
     }
   }
 
   return (
-    <>
+    <div className={css(styles.body)}>
       <div className={css(styles.menu)}>
+        
         <Title class={css(styles.titleMenu)} title='Cardápio' />
         <Button class={css(styles.btnCategory)} handleClick={() => setMenu(true)} title='Breakfast' />
         <Button class={css(styles.btnCategory)} handleClick={() => setMenu(false)} title='All Day' />
@@ -247,7 +256,7 @@ function Menu() {
           handleChange={e => setTable(e.currentTarget.value)} holder='digite o número da mesa' />
         <Button class={css(styles.btnOrder)} handleClick={sendOrder} title="Enviar Pedido" />
       </div>
-    </>
+    </div>
   )
 }
 
