@@ -8,12 +8,13 @@ const styles = StyleSheet.create({
     height: '150px',
     width: '180px',
     border: 'none',
+    outline: 'none',
     borderRadius: '10px',
-    background: 'rgba(242, 187, 32, 0.7)',
+    background: '#F2CB05',
     padding: '5px',
     margin: '10px',
     font: 'italic 20px Arial',
-    color: '#A61B0F'
+    color: '#750300'
   },
 
   title: {
@@ -27,7 +28,6 @@ const styles = StyleSheet.create({
     font: 'normal 18px Arial',
     color: 'rgb(65, 65, 65)',
   },
-
  });
 
 function CardItem (props) {

@@ -9,8 +9,8 @@ import { StyleSheet, css } from 'aphrodite';
 const styles = StyleSheet.create({
   btnHome: {
     borderRadius: '5px',
-    background: '#A61B0F',
-    color: 'white',
+    background: '#262525',
+    color: '#F2F3EF',
     margin: '5px 5%',
     padding: '5px 30px',
     font: 'bolder 20px Arial',

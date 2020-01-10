@@ -14,84 +14,106 @@ const styles = StyleSheet.create({
   },
   menu: {
     borderStyle: 'double',
-    borderColor: '#A61B0F',
+    borderColor: '#262525',
     width: '60%',
     textAlign: 'center',
     margin: '5px',
-  },
-
-  flex: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    marginRight: '1px',
   },
 
   resumo: {
     borderStyle: 'double',
-    borderColor: '#A61B0F',
+    borderColor: '#262525',
     width: '40%',
     textAlign: 'center',
     margin: '5px',
-    marginLeft: '0px',
+    marginLeft: '1px',
     padding: '5px',
   },
 
   titleMenu: {
-    font: 'bolder 30px Arial',
-    color: '#A61B0F',
+    font: 'bolder 36px Arial',
+    color: '#262525',
+    textShadow: '2px 2px 2px rgb(202, 202, 202)',
   },
 
   btnCategory: {
     height: '100px',
     width: '180px',
     border: 'none',
+    outline: 'none',
     borderRadius: '10px',
-    background: '#A61B0F',
+    background: '#262525',
     padding: '10px',
     margin: '10px',
     font: 'bolder 30px Arial',
-    color: '#F2F2F2',
+    color: 'white',
+    boxShadow: '3px 3px 5px #262525',
   },
 
   btnItensResumo: {
     height: '60px',
-    width: '350px',
+    width: '270px',
     border: 'none',
     borderRadius: '5px',
-    background: 'rgb(226, 223, 181)',
-    padding: '0px',
+    background: '#F2F3EF',
+    paddingTop: '3px',
     margin: '5px',
+    font: 'normal 13px Arial',
   },
 
   titleItensResumo: {
-    font: 'normal 14px Arial',
+    font: 'normal 13px Arial',
     color: 'rgb(0, 0, 0)',
   },
 
+  btnIcon: {
+    background: 'transparent',
+    boxShadow: '1px 1px 1px #262525',
+    border: 'none',
+    borderRadius: '5px',
+    outline: 'none',
+  },
+  btnIcons: {
+    background: 'transparent',
+    // boxShadow: '1px 1px 1px #262525',
+    border: 'none',
+    borderRadius: '5px',
+    outline: 'none',
+    marginLeft: '50px',    
+  },
+
   totalResumo: {
-    font: 'bold 20px Arial',
-    color: '#A61B0F',
+    font: 'bold 22px Arial',
+    color: '#D93232',
     padding: '20px',
     border: 'double 0.5px rgb(245, 245, 245)',
     background: 'rgba(242, 187, 32, 0.09)',
   },
 
   input: {
-    font: 'normal 16px Arial',
-    textAlign: 'right',
-    marginRight: '35px',
+    font: 'normal 12px Arial',
+    textAlign: 'center',
+    margin: '5px',
+    height: '50px',
+    outline: 'none',
+  },
+
+  inputLabel: {
+    font: 'normal 12px Arial',
   },
 
   btnOrder: {
     height: '100px',
     width: '200px',
     border: 'none',
+    outline: 'none',
     borderRadius: '10px',
-    background: '#A61B0F',
+    background: '#262525',
     margin: '10px',
     marginTop: '25px',
     font: 'bold 24px Arial',
+    color: '#F2F3EF'
       // ':hover': {
       //     color: 'red'
       // },
@@ -231,7 +253,7 @@ function Menu() {
         <Button class={css(styles.btnCategory)} handleClick={() => setMenu(true)} title='Breakfast' />
         <Button class={css(styles.btnCategory)} handleClick={() => setMenu(false)} title='All Day' />
 
-        {menu ? <div className={css(styles.flex)}><RenderBreakfastItens state={itens1} function={addItem} /></div>
+        {menu ? <RenderBreakfastItens state={itens1} function={addItem} />
               : <RenderAllDayItens state={itens2} state2={option} setState2={setOption} state3={extra} 
                 function1={handleCheckbox} function2={addBurger} function3={addItem} /> }
       </div>
@@ -241,19 +263,19 @@ function Menu() {
           <div key={index} className={css(styles.btnItensResumo)}>
             <Title class={css(styles.titleItensResumo)} title={item.name}
               addtitle={' - valor total: R$ ' + item.count * (item.price + (item.addExtra.length)) + ',00'} />
-            Qtd:
-            <Button class='' handleClick={() => reduceItem(item)} title='-' />{item.count}
-            <Button class='' handleClick={() => addItem(item)} title='+' />
-            <Button class='' handleClick={() => delItem(item)} title='Delete' />
+            Qtd: 
+            <Button class={css(styles.btnIcon)} handleClick={() => reduceItem(item)} title=' - ' />{' ' + item.count + ' '}
+            <Button class={css(styles.btnIcon)} handleClick={() => addItem(item)} title=' + ' />
+            <Button class={css(styles.btnIcons)} handleClick={() => delItem(item)} title='🗑️' />
           </div>
         )}
 
-        <p className={css(styles.totalResumo)}>Valor Total do Pedido: <strong>{total} reais</strong></p>
-        <p>Preencha os campos abaixo para concluir</p>
-        <Input class={css(styles.input)} label='Nome: ' type='text' value={client}
-          handleChange={e => setClient(e.currentTarget.value)} holder='nome do cliente' />
-        <Input class={css(styles.input)} label='Mesa: ' type='number' value={table}
-          handleChange={e => setTable(e.currentTarget.value)} holder='digite o número da mesa' />
+        <p className={css(styles.totalResumo)}>Valor Total do Pedido: <strong>R$ {total},00</strong></p>
+        <p className={css(styles.inputLabel)}>Preencha os campos abaixo para concluir</p>
+        <Input class={css(styles.input)} type='text' value={client} holder='Nome do cliente' 
+          handleChange={e => setClient(e.currentTarget.value)} />
+        <Input class={css(styles.input)} type='number' value={table} holder='Número da mesa'
+          handleChange={e => setTable(e.currentTarget.value)} />
         <Button class={css(styles.btnOrder)} handleClick={sendOrder} title="Enviar Pedido" />
       </div>
     </div>

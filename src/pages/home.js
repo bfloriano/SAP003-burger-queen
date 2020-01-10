@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   link: {
-    background: '#A61B0F',
-    color: 'white',
+    background: '#262525',
+    color: '#F2F3EF',
     height: '100px',
     width: '92%',
     borderRadius: '15px',
