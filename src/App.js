@@ -9,19 +9,22 @@ import { StyleSheet, css } from 'aphrodite';
 const styles = StyleSheet.create({
   btnHome: {
     borderRadius: '5px',
-    background: '#262525',
-    color: '#F2F3EF',
+    background: '#000000',
+    color: '#FFFCFC',
     margin: '5px 5%',
     padding: '5px 30px',
     font: 'bolder 20px Arial',
   },
+  background: {
+    background: '#262525',
+  }
 });
 
 function App() {
   document.title = `Burger Queen`
 
   return (
-    <>
+    <div className={css(styles.background)}>
       <Router>
         <>
           <Link className={css(styles.btnHome)} to="/">←</Link>
@@ -33,7 +36,7 @@ function App() {
           </Switch>
         </>
       </Router>
-    </>
+    </div>
   );
 }
 

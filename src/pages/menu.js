@@ -13,60 +13,53 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   menu: {
-    borderStyle: 'double',
-    borderColor: '#262525',
+    borderRightStyle: 'double',
+    borderColor: '#FFFCFC',
     width: '60%',
     textAlign: 'center',
     margin: '5px',
     marginRight: '1px',
   },
-
   resumo: {
-    borderStyle: 'double',
-    borderColor: '#262525',
     width: '40%',
     textAlign: 'center',
     margin: '5px',
     marginLeft: '1px',
     padding: '5px',
   },
-
   titleMenu: {
     font: 'bolder 36px Arial',
-    color: '#262525',
-    textShadow: '2px 2px 2px rgb(202, 202, 202)',
+    color: '#FFFCFC',
+    textShadow: '1px 1px 1px #B2B2B0',
   },
-
   btnCategory: {
     height: '100px',
     width: '180px',
     border: 'none',
     outline: 'none',
     borderRadius: '10px',
-    background: '#262525',
+    background: '#FF9A00',
     padding: '10px',
     margin: '10px',
     font: 'bolder 30px Arial',
-    color: 'white',
-    boxShadow: '3px 3px 5px #262525',
+    color: '#FFFCFC',
+    boxShadow: '1px 1px 5px #B2B2B0',
   },
-
   btnItensResumo: {
     height: '60px',
-    width: '270px',
+    width: '90%',
     border: 'none',
     borderRadius: '5px',
-    background: '#F2F3EF',
+    background: '#FFFCFC',
+    color: '#262525',
     paddingTop: '3px',
-    margin: '5px',
+    margin: '2px 5%',
     font: 'normal 13px Arial',
   },
-
   titleItensResumo: {
     font: 'normal 13px Arial',
-    color: 'rgb(0, 0, 0)',
+    color: '#262525',
   },
-
   btnIcon: {
     background: 'transparent',
     boxShadow: '1px 1px 1px #262525',
@@ -76,62 +69,48 @@ const styles = StyleSheet.create({
   },
   btnIcons: {
     background: 'transparent',
-    // boxShadow: '1px 1px 1px #262525',
     border: 'none',
     borderRadius: '5px',
     outline: 'none',
-    marginLeft: '50px',    
+    marginLeft: '50px',
   },
-
   totalResumo: {
     font: 'bold 22px Arial',
-    color: '#D93232',
+    color: '#FF9A00',
     padding: '20px',
-    border: 'double 0.5px rgb(245, 245, 245)',
-    background: 'rgba(242, 187, 32, 0.09)',
   },
-
   input: {
-    font: 'normal 12px Arial',
+    font: 'normal 14px Arial',
     textAlign: 'center',
     margin: '5px',
     height: '50px',
     outline: 'none',
+    border: 'none',
+    borderRadius: '5px',
+    color: '#262525',
   },
-
   inputLabel: {
     font: 'normal 12px Arial',
+    color: '#B2B2B0',
   },
-
   btnOrder: {
     height: '100px',
     width: '200px',
     border: 'none',
     outline: 'none',
     borderRadius: '10px',
-    background: '#262525',
+    background: '#000000',
     margin: '10px',
     marginTop: '25px',
     font: 'bold 24px Arial',
-    color: '#F2F3EF'
-      // ':hover': {
-      //     color: 'red'
-      // },
-      // 'focus': {
-      //   color: 'blue'
-      // },
-      // 'active': {
-      //   color: 'blue'
-      // },
+    color: '#FF9A00'
   },
-
-  
   // small: {
   //     '@media (max-width: 600px)': {
   //         backgroundColor: 'red',
   //     }
   // }
-});    
+});
 
 function Menu() {
   const [menu, setMenu] = useState();
@@ -221,7 +200,7 @@ function Menu() {
           table: parseInt(table),
           timeSend: new Date(),
           timeDateS: new Date().getDate(),
-          timeHourS: new Date().getHours(),  
+          timeHourS: new Date().getHours(),
           timeMinS: new Date().getMinutes(),
           timeSecS: new Date().getSeconds(),
           status: 'inProgress',
@@ -248,14 +227,13 @@ function Menu() {
   return (
     <div className={css(styles.body)}>
       <div className={css(styles.menu)}>
-        
-        <Title class={css(styles.titleMenu)} title='Cardápio' />
+        <Title class={css(styles.titleMenu)} title='Menu' />
         <Button class={css(styles.btnCategory)} handleClick={() => setMenu(true)} title='Breakfast' />
         <Button class={css(styles.btnCategory)} handleClick={() => setMenu(false)} title='All Day' />
 
         {menu ? <RenderBreakfastItens state={itens1} function={addItem} />
-              : <RenderAllDayItens state={itens2} state2={option} setState2={setOption} state3={extra} 
-                function1={handleCheckbox} function2={addBurger} function3={addItem} /> }
+          : <RenderAllDayItens state={itens2} state2={option} setState2={setOption} state3={extra}
+            function1={handleCheckbox} function2={addBurger} function3={addItem} />}
       </div>
 
       <div className={css(styles.resumo)}>
@@ -263,7 +241,7 @@ function Menu() {
           <div key={index} className={css(styles.btnItensResumo)}>
             <Title class={css(styles.titleItensResumo)} title={item.name}
               addtitle={' - valor total: R$ ' + item.count * (item.price + (item.addExtra.length)) + ',00'} />
-            Qtd: 
+            Qtd:
             <Button class={css(styles.btnIcon)} handleClick={() => reduceItem(item)} title=' - ' />{' ' + item.count + ' '}
             <Button class={css(styles.btnIcon)} handleClick={() => addItem(item)} title=' + ' />
             <Button class={css(styles.btnIcons)} handleClick={() => delItem(item)} title='🗑️' />
@@ -272,7 +250,7 @@ function Menu() {
 
         <p className={css(styles.totalResumo)}>Valor Total do Pedido: <strong>R$ {total},00</strong></p>
         <p className={css(styles.inputLabel)}>Preencha os campos abaixo para concluir</p>
-        <Input class={css(styles.input)} type='text' value={client} holder='Nome do cliente' 
+        <Input class={css(styles.input)} type='text' value={client} holder='Nome do cliente'
           handleChange={e => setClient(e.currentTarget.value)} />
         <Input class={css(styles.input)} type='number' value={table} holder='Número da mesa'
           handleChange={e => setTable(e.currentTarget.value)} />
@@ -283,4 +261,3 @@ function Menu() {
 }
 
 export default Menu;
-

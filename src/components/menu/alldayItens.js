@@ -11,14 +11,15 @@ const styles = StyleSheet.create({
   },
   category: {
     font: 'normal 22px Arial',
-    color: '#262525',
+    color: '#FFFCFC',
   },
   box: {
     borderRadius: '10px',
     width: '200px',
     margin: '10px',
     padding: '5px',
-    background: '#F2F3EF',
+    background: '#8C081F',
+    color: '#FFFCFC',
   },
 });
 

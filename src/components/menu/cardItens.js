@@ -10,23 +10,23 @@ const styles = StyleSheet.create({
     border: 'none',
     outline: 'none',
     borderRadius: '10px',
-    background: '#F2CB05',
+    background: '#8C081F',
     padding: '5px',
     margin: '10px',
     font: 'italic 20px Arial',
-    color: '#750300'
+    color: '#FF9A00'
   },
 
   title: {
     font: 'bolder 18px Arial',
-    color: 'rgb(65, 65, 65)',
+    color: '#FFFCFC',
     textAlign: 'center',
     padding: '2px',
   },
 
   subTitle: {
     font: 'normal 18px Arial',
-    color: 'rgb(65, 65, 65)',
+    color: '#FFFCFC',
   },
  });
 

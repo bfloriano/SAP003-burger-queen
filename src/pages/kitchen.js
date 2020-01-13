@@ -8,43 +8,55 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
+  pageTitle: {
+    font: 'bolder 36px Arial',
+    color: '#FFFCFC',
+    textShadow: '1px 1px 1px #B2B2B0',
+    textAlign: 'center',
+  },
   order: {
-    borderRadius: '25px',  
-    background: 'rgba(242, 187, 32, 0.7)',
-    width: '500px',
-    // height: '500px',
+    borderRadius: '25px',
+    background: '#8C081F',
+    color: '#FFFCFC',
+    width: '70%',
     textAlign: 'center',
     paddingLeft: '20px',
     paddingRight: '20px',
-    // margin: '5px',
-    marginLeft: '100px',
-    marginRight: '100px',
+    margin: '15px 15%',
   },
   title: {
-    // textAlign: 'center',
-    // alignSelf: 'center',
-    paddingTop: '10px',
-    color: '#A61B0F',
+    padding: '10px 0px',
+    margin: '0px',
+    color: '#FF9A00',
     font: 'normal 16px Arial',
-
+    borderBottom: 'solid 1px #FFFCFC',
   },
   item: {
-    borderBottom: 'solid 0.1px white',
-    borderTop: 'solid 0.1px white',
+    borderBottom: 'solid 0.1px #B2B2B0',
     font: 'normal 20px Arial',
     textAlign: 'left',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  options: {
+    font: 'normal 16px Arial',
+  },
+  check: {
+    height: '30px',
+    width: '30px',
   },
   button: {
-    // justifyContent: 'center',
     border: 'none',
-    borderRadius: '25px',
+    outline: 'none',
+    borderRadius: '15px',
     height: '100px',
-    width: '350px',
-    background: '#A61B0F',
-    color: 'white',
+    width: '50%',
+    background: '#FF9A00',
+    color: '#FFFCFC',
     font: 'bolder 44px Arial',
     margin: '10px',
-
   },
 });
 
@@ -67,57 +79,52 @@ function Kitchen() {
   const confirm = (item) => {
 
     firebase
-    .firestore().collection('Orders').doc(item.id).update({
-      status: 'toDeliver',
-      timeDone: new Date(),
-      timeDateD: new Date().getDate(),   // dateD: 8,
-      timeHourD: new Date().getHours(),
-      timeMinD: new Date().getMinutes(),
-      timeSecD: new Date().getSeconds(),
-    })
-    .then(() => {
-      console.log('uhul');
-    })
+      .firestore().collection('Orders').doc(item.id).update({
+        status: 'toDeliver',
+        timeDone: new Date(),
+        timeDateD: new Date().getDate(),
+        timeHourD: new Date().getHours(),
+        timeMinD: new Date().getMinutes(),
+        timeSecD: new Date().getSeconds(),
+      })
   }
 
   return (
     <div className={css(styles.flex)}>
-      <h2>Pedidos</h2>
+      <h1 className={css(styles.pageTitle)}>Pedidos</h1>
+      {order.map((item, index) =>
+        <div key={index}>
 
-      {order.map((item, index) => 
-      <div key={index}>
+          {item.status === 'inProgress' ?
+            <div className={css(styles.order)}>
+              <p className={css(styles.title)}>{' Mesa: ' + item.table}</p>
 
-      {item.status === 'inProgress' ?
-        <div className={css(styles.order)}>
-
-        <h3 className={css(styles.title)}>{item.client}{' Mesa: ' + item.table}</h3>     
-            {item.resumo.map((products, index) =>
-
-
-              <div key={index} className={css(styles.item)}>
-                {products.type === 'burger' ?
-                <>
-                <h3>{'Qtd: ' + products.count} - {products.name}</h3>
-                <p>{'Hamburguer: ' + products.meetSelect}</p>
-                  {products.addExtra.length !== 0 ?
-                    <p>{'Com adicional: ' + products.addExtra}</p>
-                    : null
+              {item.resumo.map((products, index) =>
+                <div key={index} className={css(styles.item)}>
+                  {products.type === 'burger' ?
+                    <div>
+                      <p>{'Qtd: ' + products.count} - {products.name}</p>
+                      <div className={css(styles.options)}>
+                        <p>{'Hambúrguer: ' + products.meetSelect}</p>
+                        {products.addExtra.length !== 0 ?
+                          <p>{'Com adicional: ' + products.addExtra}</p>
+                          : null
+                        }
+                      </div>
+                    </div>
+                    :
+                    <p>{'Qtd: ' + products.count} - {products.name}</p>
                   }
-                </>
-                : 
-                <h3>{'Qtd: ' + products.count} - {products.name}</h3>
-                }
-              </div>)}
-
-            <button className={css(styles.button)} onClick={() => confirm(item)}>OK</button> 
-
+                  <input type="checkbox" className={css(styles.check)} />
+                </div>
+              )}
+              <button className={css(styles.button)} onClick={() => confirm(item)}><span>✔️</span></button>
+            </div>
+            : null}
         </div>
-      : null}
-
-      </div>
-      )}   
+      )}
     </div>
   );
-}  
+}
 
 export default Kitchen

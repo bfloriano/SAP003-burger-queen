@@ -8,58 +8,61 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
+  pageTitle: {
+    font: 'bolder 36px Arial',
+    color: '#FFFCFC',
+    textShadow: '1px 1px 1px #B2B2B0',
+    textAlign: 'center',
+    margin: '5px',
+  },
   order: {
     borderRadius: '25px',
-    background: 'rgba(242, 187, 32, 0.7)',
-    width: '500px',
-    // height: '500px',
+    background: '#8C081F',
+    color: '#FFFCFC',
+    width: '70%',
     textAlign: 'center',
     paddingLeft: '20px',
     paddingRight: '20px',
-    margin: '5px',
-    marginLeft: '100px',
-    marginRight: '100px',
+    margin: '15px 15%',
   },
   title: {
-    // textAlign: 'center',
-    // alignSelf: 'center',
-    paddingTop: '5px',
-    color: '#A61B0F',
+    padding: '10px 0px',
+    margin: '0px',
+    color: '#FF9A00',
     font: 'normal 16px Arial',
-    borderBottom: 'solid 0.02px white',
+    borderBottom: 'solid 1px #FFFCFC',
   },
   bodyItens: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-
+    alignItems: 'center',
   },
   itens: {
-    // borderBottom: 'solid 0.05px white',
     display: 'flex',
     flexDirection: 'column',
-    width: '200px',
-    // borderTop: 'solid 0.02px white',
-    font: 'normal 12px Arial',
+    width: '50%',
+    font: 'normal 14px Arial',
     textAlign: 'left',
   },
   button: {
-    // textAlign: 'right',
-    paddingTop: '10px',
+    paddingTop: '5px',
     border: 'none',
+    outline: 'none',
     borderRadius: '5px',
     height: '50px',
-    width: '100px',
-    background: '#A61B0F',
-    color: 'white',
+    width: '25%',
+    background: '#FF9A00',
+    color: '#FFFCFC',
     font: 'bolder 14px Arial',
-    marginLeft: '85px',
-    // margin: '5px',
+    margin: '10px',
 
   },
   time: {
     borderTop: 'solid 0.02px white',
     font: 'normal 14px Arial',
+    color: '#B2B2B0',
+    padding: '10px',
   },
 
 });
@@ -89,9 +92,6 @@ function Delivery() {
         timeMinC: new Date().getMinutes(),
         timeSecC: new Date().getSeconds(),
       })
-      .then(() => {
-        console.log('finish');
-      })
   }
 
   const time = (item) => {
@@ -120,40 +120,36 @@ function Delivery() {
 
   return (
     <div className={css(styles.flex)}>
-      <h2>Pedidos Prontos para a Entrega</h2>
+      <h1 className={css(styles.pageTitle)}>Pedidos Prontos para a Entrega</h1>
       {delivery.map((item, index) =>
+        <div key={index}>
 
-        <div key={index} className={css(styles.order)}>
           {item.status === 'toDeliver' ?
-            <div>
-
-              <h3 className={css(styles.title)}>{'Mesa ' + item.table} - {item.client}</h3>
-
-
+            <div className={css(styles.order)}>
+              <p className={css(styles.title)}>{'Mesa ' + item.table} - {item.client}</p>
               <div className={css(styles.bodyItens)}>
-
                 <div className={css(styles.itens)}>
+
                   {item.resumo.map((itens, index) =>
-
-
                     <div key={index} >
-
                       {itens.type === 'burger' ?
-                        <p>Qtd:{itens.count} - {itens.name}{' /' + itens.meetSelect}{' com adicional: ' + itens.addExtra}</p>
+                        <div>
+                          <p>Qtd:{itens.count} - {itens.name}{' /' + itens.meetSelect}</p>
+                          {itens.addExtra.length !== 0 ?
+                            <p>{' com adicional: ' + itens.addExtra}</p>
+                            : null
+                          }
+                        </div>
                         :
-                        <p>Qtd:{itens.count} - {itens.name}</p>}
-
+                        <p>Qtd:{itens.count} - {itens.name}</p>
+                      }
                     </div>
                   )}
-                </div>
 
+                </div>
                 <button className={css(styles.button)} onClick={() => conclud(item)}>entregue!</button>
               </div>
-
-
               <div className={css(styles.time)}>O pedido ficou pronto em: {time(item)}</div>
-              {console.log(time(item))}
-
             </div>
             : null}
         </div>
