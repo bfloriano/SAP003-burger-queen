@@ -44,30 +44,30 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [page, setPage] = useState('');    
+  const [page, setPage] = useState('');
 
-    const loginUser = () => {
-  
-      firebase.auth().signInWithEmailAndPassword(email, password).then().catch((error) => {
-        const errorCode = error.code;
-        if (errorCode === 'auth/invalid-email') {alert('Email inválido')}
-        if (errorCode === 'auth/user-disabled') {alert('Usuário desabilitado')}
-        if (errorCode === 'auth/user-not-found') {alert('Usuário não encontrado')}
-        if (errorCode === 'auth/wrong-password') {alert('Senha incorreta')}
+  const loginUser = () => {
+
+    firebase.auth().signInWithEmailAndPassword(email, password).then().catch((error) => {
+      const errorCode = error.code;
+      if (errorCode === 'auth/invalid-email') { alert('Email inválido') }
+      if (errorCode === 'auth/user-disabled') { alert('Usuário desabilitado') }
+      if (errorCode === 'auth/user-not-found') { alert('Usuário não encontrado') }
+      if (errorCode === 'auth/wrong-password') { alert('Senha incorreta') }
     });
   }
 
   return (
     <div className={css(styles.page)}>
-    <h1 className={css(styles.title)}>Bem vindo ao Burguer Queen</h1>
+      <h1 className={css(styles.title)}>Bem vindo ao Burguer Queen</h1>
       <input className={css(styles.input)} type="email" placeholder="E-mail" onChange={e => setEmail(e.currentTarget.value)} />
       <input className={css(styles.input)} type="password" placeholder="Senha" onChange={e => setPassword(e.currentTarget.value)} />
 
       <button className={css(styles.button)} onClick={loginUser}>Login</button>
       <button className={css(styles.button)} onClick={() => setPage('register')}>Registre-se</button>
 
-      {page === 'register' ? <Redirect to="/register"/> : null }
-  
+      {page === 'register' ? <Redirect to="/register" /> : null}
+
     </div>
   );
 }

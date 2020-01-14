@@ -8,7 +8,7 @@ import Home from './pages/home';
 import Menu from './pages/menu';
 import Delivery from './pages/delivery';
 import Kitchen from './pages/kitchen';
-import Button from './components/button'; 
+import Button from './components/button';
 import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
@@ -39,17 +39,17 @@ const styles = StyleSheet.create({
 function App() {
 
   document.title = `Burger Queen`
-  const [roll, setRoll ]= useState('')
-  
-  useEffect(()=> {
-    firebase.auth().onAuthStateChanged(function(user) {
+  const [roll, setRoll] = useState('')
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
 
         let uid = user.uid;
-        firebase.firestore().collection("users").get().then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-            if(doc.data()["user_uid"] === uid) {
-              if(doc.data().occupation === "kitchen") {
+        firebase.firestore().collection("users").get().then(function (querySnapshot) {
+          querySnapshot.forEach(function (doc) {
+            if (doc.data()["user_uid"] === uid) {
+              if (doc.data().occupation === "kitchen") {
                 setRoll("kitchen");
               } else if (doc.data().occupation === "waiter") {
                 setRoll("waiter");
@@ -58,7 +58,7 @@ function App() {
             }
           });
         });
-   
+
       } else {
         console.log("nao tem ninguem")
         setRoll("nada");
@@ -78,32 +78,32 @@ function App() {
     <div className={css(styles.background)}>
       <Router>
         <>
-          <Switch> 
-            { roll === "kitchen" ?  
+          <Switch>
+            {roll === "kitchen" ?
               (
                 <>
-                <div className={css(styles.alignK)}>
-                  <Button class={css(styles.btnHome)} handleClick={() => logOut()} title='LogOut' />
-                </div>
-                  <Redirect to="/kitchen" />
-                  <Route path="/kitchen" component={Kitchen} /> 
-                </>
-              ) : ((roll === "waiter") ? 
-                (
-                  <>
-                  <div className={css(styles.align)}>
-                    <Link className={css(styles.btnHome)} to="/home">←</Link>
+                  <div className={css(styles.alignK)}>
                     <Button class={css(styles.btnHome)} handleClick={() => logOut()} title='LogOut' />
                   </div>
+                  <Redirect to="/kitchen" />
+                  <Route path="/kitchen" component={Kitchen} />
+                </>
+              ) : ((roll === "waiter") ?
+                (
+                  <>
+                    <div className={css(styles.align)}>
+                      <Link className={css(styles.btnHome)} to="/home">←</Link>
+                      <Button class={css(styles.btnHome)} handleClick={() => logOut()} title='LogOut' />
+                    </div>
                     <Redirect to="/home" />
                     <Route path="/home" component={Home} />
                     <Route path="/menu" component={Menu} />
                     <Route path="/delivery" component={Delivery} />
                   </>
-                ) : 
+                ) :
                 (
                   <>
-                    <Redirect to="/" />  
+                    <Redirect to="/" />
                     <Route exact path="/" component={Login} />
                     <Route path="/register" component={Register} />
                   </>
