@@ -118,7 +118,7 @@ function Kitchen() {
                   <input type="checkbox" className={css(styles.check)} />
                 </div>
               )}
-              <button className={css(styles.button)} onClick={() => confirm(item)}><span>✔️</span></button>
+              <button className={css(styles.button)} onClick={() => confirm(item)}><span role="img" aria-label="confirm">✔️</span></button>
             </div>
             : null}
         </div>

@@ -25,8 +25,8 @@ function Home() {
     <div className={css(styles.body)}>
       <>
         <Link className={css(styles.link)} to="/menu">Menu</Link>
-        <Link className={css(styles.link)} to="/delivery">Delivery</Link>
         <Link className={css(styles.link)} to="/kitchen">Kitchen</Link>
+        <Link className={css(styles.link)} to="/delivery">Delivery</Link>
       </>
     </div>
   );

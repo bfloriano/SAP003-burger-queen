@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   btnOrder: {
     height: '100px',
     width: '200px',
-    border: 'none',
+    border: 'solid 2px #FF9A00',
     outline: 'none',
     borderRadius: '10px',
     background: '#000000',
@@ -105,11 +105,6 @@ const styles = StyleSheet.create({
     font: 'bold 24px Arial',
     color: '#FF9A00'
   },
-  // small: {
-  //     '@media (max-width: 600px)': {
-  //         backgroundColor: 'red',
-  //     }
-  // }
 });
 
 function Menu() {
