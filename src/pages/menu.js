@@ -105,11 +105,6 @@ const styles = StyleSheet.create({
     font: 'bold 24px Arial',
     color: '#FF9A00'
   },
-  // small: {
-  //     '@media (max-width: 600px)': {
-  //         backgroundColor: 'red',
-  //     }
-  // }
 });
 
 function Menu() {

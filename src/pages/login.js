@@ -1,88 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import firebase from '../Utils/firebase';
-// import { Link } from "react-router-dom";
 import { Redirect } from 'react-router';
-// import { useHistory } from "react-router-dom";
 import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
   page: {
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
+  },
+  title: {
+    color: '#FF9A00',
+    font: 'bolder 40px Arial',
+    textShadow: '1px 1px 1px #B2B2B0',
+  },
+  input: {
+    border: 'none',
+    outline: 'none',
+    width: '75%',
+    height: '70px',
+    background: '#FFFCFC',
+    margin: '10px',
+    textAlign: 'center',
+    borderRadius: '15px',
+    color: '#262525',
+    font: 'bolder 14px Arial',
+  },
+  button: {
+    border: 'none',
+    borderRadius: '15px',
+    outline: 'none',
+    width: '30%',
+    height: '100px',
+    background: '#FF9A00',
+    margin: '10px',
+    textAlign: 'center',
+    color: '#FFFCFC',
+    font: 'bolder 34px Arial',
   },
 });
 
 const Login = () => {
 
-  // let history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [occupation, setOccupation] = useState('');
   const [page, setPage] = useState('');    
 
-
-  // useEffect(() => {
-  //     firebase
-  //     .firestore().collection('users').where('occupation', '==', 'kitchen')
-  //       .get().then(snapshot => {
-  //         snapshot.forEach(doc => {
-  //           setPage('kitchen')
-  //         })
-  //       })
-  //     firebase
-  //       .firestore().collection('users').where('occupation', '==', 'waiter')
-  //       .get().then(snapshot => {
-  //         snapshot.forEach(doc => {
-  //           setPage('waiter')
-  //         })
-  //       })
-  //     }, [])
-
-
     const loginUser = () => {
-        
-      // e.preventDefault();
-      firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-        console.log("aaaaaaaaaa")
-        firebase
-      .firestore().collection('users')
-        .get().then(snapshot => {
-          snapshot.forEach(doc => {
-            if(doc.occupation === 'kitchen') {
-              setPage('kitchen')
-            } else if (doc.occupation === 'waiter') {
-              setPage('waiter')
-            }
-          })
-        })
-        
   
-          }).catch((error) => {
-      const errorCode = error.code;
-      if (errorCode === 'auth/invalid-email') {alert('Email inválido')}
-      if (errorCode === 'auth/user-disabled') {alert('Usuário desabilitado')}
-      if (errorCode === 'auth/user-not-found') {alert('Usuário não encontrado')}
-      if (errorCode === 'auth/wrong-password') {alert('Senha incorreta')}
+      firebase.auth().signInWithEmailAndPassword(email, password).then().catch((error) => {
+        const errorCode = error.code;
+        if (errorCode === 'auth/invalid-email') {alert('Email inválido')}
+        if (errorCode === 'auth/user-disabled') {alert('Usuário desabilitado')}
+        if (errorCode === 'auth/user-not-found') {alert('Usuário não encontrado')}
+        if (errorCode === 'auth/wrong-password') {alert('Senha incorreta')}
     });
   }
 
-
-  
-
   return (
     <div className={css(styles.page)}>
-      <input type="email" placeholder="E-mail" onChange={e => setEmail(e.currentTarget.value)} />
-      <input type="password" placeholder="Senha" onChange={e => setPassword(e.currentTarget.value)} />
+    <h1 className={css(styles.title)}>Bem vindo ao Burguer Queen</h1>
+      <input className={css(styles.input)} type="email" placeholder="E-mail" onChange={e => setEmail(e.currentTarget.value)} />
+      <input className={css(styles.input)} type="password" placeholder="Senha" onChange={e => setPassword(e.currentTarget.value)} />
 
-    
-      <button onClick={loginUser}>Login</button>
-      <button onClick={() => setPage('register')}>Ainda não faz parte do Burger Queen? Registre-se aqui</button>
+      <button className={css(styles.button)} onClick={loginUser}>Login</button>
+      <button className={css(styles.button)} onClick={() => setPage('register')}>Registre-se</button>
 
       {page === 'register' ? <Redirect to="/register"/> : null }
-      {page === 'kitchen' ? <Redirect to="/kitchen"/> : null }
-      {page === 'waiter' ? <Redirect to="/home"/> : null } 
-
-      {/* {page === 'kitchen' ? <Redirect to="/kitchen"/> : <Redirect to="/home"/> } */}
   
     </div>
   );
