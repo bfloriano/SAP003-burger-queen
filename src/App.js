@@ -31,7 +31,6 @@ function App() {
           <Link className={css(styles.btnHome)} to="/">←</Link>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/register" component={Register} />
             <Route path="/menu" component={Menu} />
             <Route path="/kitchen" component={Kitchen} />
             <Route path="/delivery" component={Delivery} />
