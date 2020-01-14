@@ -12,6 +12,7 @@
 ## 1. Preâmbulo
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
 A página da aplicação pode ser acessada atraves do Link: [Burger Queen](https://burger-queen-ca66c.firebaseapp.com/)
 
 [React](https://reactjs.org/), [Angular](https://angular.io/) e
