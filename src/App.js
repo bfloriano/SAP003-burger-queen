@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Register from './pages/register';
 import Home from './pages/home';
 import Menu from './pages/menu';
 import Delivery from './pages/delivery';
@@ -30,6 +31,7 @@ function App() {
           <Link className={css(styles.btnHome)} to="/">←</Link>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route path="/register" component={Register} />
             <Route path="/menu" component={Menu} />
             <Route path="/kitchen" component={Kitchen} />
             <Route path="/delivery" component={Delivery} />
