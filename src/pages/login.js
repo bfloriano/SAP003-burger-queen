@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import firebase from '../Utils/firebase';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Redirect } from 'react-router';
 // import { useHistory } from "react-router-dom";
 import { StyleSheet, css } from 'aphrodite';
@@ -21,19 +21,41 @@ const Login = () => {
   const [page, setPage] = useState('');    
 
 
-  const loginUser = () => {
+  // useEffect(() => {
+  //     firebase
+  //     .firestore().collection('users').where('occupation', '==', 'kitchen')
+  //       .get().then(snapshot => {
+  //         snapshot.forEach(doc => {
+  //           setPage('kitchen')
+  //         })
+  //       })
+  //     firebase
+  //       .firestore().collection('users').where('occupation', '==', 'waiter')
+  //       .get().then(snapshot => {
+  //         snapshot.forEach(doc => {
+  //           setPage('waiter')
+  //         })
+  //       })
+  //     }, [])
 
-    
+
+    const loginUser = () => {
+        
       // e.preventDefault();
-      firebase.auth().signInWithEmailAndPassword(email, password).then(user => {
-          firebase.firestore().collection('users').where('occupation', '==', 'kitchen')
-            .get().then(() => {
-                setPage('kitchen')
-            })
-            firebase.firestore().collection('users').where('occupation', '==', 'waiter')
-            .get().then(() => {
-                setPage('waiter')
-            })
+      firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+        console.log("aaaaaaaaaa")
+        firebase
+      .firestore().collection('users')
+        .get().then(snapshot => {
+          snapshot.forEach(doc => {
+            if(doc.occupation === 'kitchen') {
+              setPage('kitchen')
+            } else if (doc.occupation === 'waiter') {
+              setPage('waiter')
+            }
+          })
+        })
+        
   
           }).catch((error) => {
       const errorCode = error.code;
@@ -54,13 +76,14 @@ const Login = () => {
 
     
       <button onClick={loginUser}>Login</button>
-      <button onClick={loginUser}><Link to="/register">Ainda não faz parte do Burger Queen? Registre-se aqui</Link></button>
+      <button onClick={() => setPage('register')}>Ainda não faz parte do Burger Queen? Registre-se aqui</button>
 
-
+      {page === 'register' ? <Redirect to="/register"/> : null }
       {page === 'kitchen' ? <Redirect to="/kitchen"/> : null }
-      {page === 'waiter' ? <Redirect to="/home"/> : null }
-      {/* {page === 'login' ? <Redirect to="/"/> : null } */}
+      {page === 'waiter' ? <Redirect to="/home"/> : null } 
 
+      {/* {page === 'kitchen' ? <Redirect to="/kitchen"/> : <Redirect to="/home"/> } */}
+  
     </div>
   );
 }

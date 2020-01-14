@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Redirect } from 'react-router';
+import firebase from './Utils/firebase';
 import Register from './pages/register';
 import Login from './pages/login';
 import Home from './pages/home';
 import Menu from './pages/menu';
 import Delivery from './pages/delivery';
 import Kitchen from './pages/kitchen';
+import Button from './components/button'; 
 import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
@@ -25,11 +28,23 @@ const styles = StyleSheet.create({
 function App() {
   document.title = `Burger Queen`
 
+  const [page, setPage] = useState('');  
+
+  const logOut = () => {
+    firebase.auth().signOut().then(() => {
+      console.log("sucesso")
+    }).catch((error) => {
+      console.log("error")
+    });
+}
+
+
   return (
     <div className={css(styles.background)}>
       <Router>
         <>
           <Link className={css(styles.btnHome)} to="/home">←</Link>
+          <Button class={css(styles.btnHome)} handleClick={() => {logOut(); setPage('login')}} title='LogOut' />
           <Switch>
             <Route exact path="/" component={Login} />
             <Route path="/register" component={Register} />
@@ -39,7 +54,9 @@ function App() {
             <Route path="/delivery" component={Delivery} />
           </Switch>
         </>
+      {page === 'login' ? <Redirect to="/" /> : null }
       </Router>
+
     </div>
   );
 }
