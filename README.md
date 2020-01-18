@@ -20,8 +20,6 @@ Um pequeno restaurante de hambúrgueres, que está crescendo, necessita uma
 interface em que se possa realizar pedidos utilizando um _tablet_, e enviá-los
 para a cozinha para que sejam preparados de forma ordenada e eficiente.
 
-### Critérios mínimos de aceitação do projeto
-
 O [_Product Owner_](https://www.youtube.com/watch?v=7lhnYbmovb4) nos apresentou
 este _backlog_ que é o resultado do seu trabalho com o cliente até hoje.
 
