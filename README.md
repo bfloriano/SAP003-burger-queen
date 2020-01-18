@@ -4,28 +4,15 @@
 
 * [1. Preâmbulo](#1-preâmbulo)
 * [2. Resumo do projeto](#2-resumo-do-projeto)
-* [3. Objetivos de aprendizagem](#3-objetivos-de-aprendizagem)
-* [4. Considerações gerais](#4-considerações-gerais)
+* [3. Considerações gerais](#3-considerações-gerais)
 
 ***
 
 ## 1. Preâmbulo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este projeto foi iniciado com o [Create React App](https://github.com/facebook/create-react-app).
 
-A página da aplicação pode ser acessada atraves do Link: [Burger Queen](https://burger-queen-ca66c.firebaseapp.com/)
-
-[React](https://reactjs.org/), [Angular](https://angular.io/) e
-[Vue](https://vuejs.org/) são alguns dos _frameworks_ e _bibliotecas_ de
-JavaScript mais usados na área de desenvolvimento ao redor do mundo e existe uma
-razão para isso, [ manter a interface sincronizada com
-o estado](https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445).
-
-Ao eleger um _framework_ ou _biblioteca_ para nossa interface, nos apoiamos em
-uma série de convenções e implementações _testadas_ e _documentadas_ para
-resolver um problema comum a toda interface web. Isto nos permite concentrar
-melhor (dedicar mais tempo) nas características _específicas_ de nossa
-aplicação.
+A aplicação simula o sistema de pedidos de um restaurante. A página da aplicação pode ser acessada atraves do Link: [Burger Queen](https://burger-queen-ca66c.firebaseapp.com/)
 
 ## 2. Resumo do projeto
 
@@ -98,36 +85,30 @@ O que deve acontecer para satisfazer as necessidades do usuário?
 
 *** 
 
-##### Definição de pronto
-
-
+#### Definição de pronto
 
 * Testes de usabilidade e incorporar o feedback do usuário.
 * Deploy de seu aplicativo.
 
 ***
 
+## 3. Considerações gerais
 
-## 3. Objetivos de aprendizagem
-
-O objetivo principal é aprender a construir uma interface web usando React. Esse framework front-end ataca o seguinte problema: **como manter a interface e estado sincronizados**. Portanto, esta experiência espera familiarizá-la com o conceito de estado da tela, e como cada mudança no estado vai refletir na interface (por exemplo, toda vez que adicionamos um _produto_ para um _pedido_, a interface deve atualizar a lista de pedidos e o total).
- 
-## 4. Considerações gerais
+O principal objetivo de aprendizagem desse projeto foi aprender a construir uma interface web usando [React](https://reactjs.org/). Com esse framework foi possível [ manter a interface sincronizada com o estado](https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445). Portanto, foi possível que cada mudança no estado refletisse na interface (por exemplo, toda vez que adicionamos um _produto_ para um _pedido_, a interface atualiza a lista de pedidos e o total).
 
 A lógica do projeto foi implementada em JavaScript (ES6 +).
-
 
 O aplicativo é um _Single Page App_, com Web Design **responsivo**.
 
 O UX foi pensado para aqueles que vão receber os pedidos, o tamanho e a aparência dos botões, a visibilidade do estado atual do pedido, etc.
 
+Para rodar a aplicação, é necessário instalar o gerenciador de pacotes [NPM](https://www.npmjs.com/). 
 
 O aplicativo utilizou `npm-scripts` e possui `start`, `build` e `deploy`, que são responsáveis por iniciar, empacotar e implantar o aplicativo, respectivamente.
 
-Foi utilizado: 
+Também é necessário instalar as dependências das ferramentas utilizadas: 
 
-* [React](https://reactjs.org/)
-* [React Hooks](https://reactjs.org/docs/hooks-intro.html)
-* [React-router-dom](https://reacttraining.com/react-router/web/guides/quick-start)
-* [Aphrodite](https://github.com/Khan/aphrodite)
-* [Firebase](https://firebase.google.com/)
+* [React Hooks](https://reactjs.org/docs/hooks-intro.html) para o desenvolvimento;
+* [React-router-dom](https://reacttraining.com/react-router/web/guides/quick-start);
+* [Aphrodite](https://github.com/Khan/aphrodite) como framework para o CSS;
+* [Firebase](https://firebase.google.com/) Hosting e Firestore para hospedagem e banco de dados.
