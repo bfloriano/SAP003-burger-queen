@@ -121,21 +121,6 @@ const styles = StyleSheet.create({
     font: 'bold 24px Arial',
     color: '#FF9A00'
   },
-  // '@media (max-width: 500px)': {
-  //   body: {
-  //     display: 'flex',
-  //     flexDirection: 'column',
-  //   },
-  //   btnCategory: {
-  //     height: '100px',
-  //     width: '180px',
-  //     background: 'blue',
-  //     padding: '10px',
-  //   // orientation: 'portrait',
-  //   // and (orientation: landscape)
-
-  // },
-  // }
 });
 
 function Menu() {
