@@ -22,8 +22,6 @@ para a cozinha para que sejam preparados de forma ordenada e eficiente.
 
 ### Critérios mínimos de aceitação do projeto
 
-### Definição do produto
-
 O [_Product Owner_](https://www.youtube.com/watch?v=7lhnYbmovb4) nos apresentou
 este _backlog_ que é o resultado do seu trabalho com o cliente até hoje.
 
