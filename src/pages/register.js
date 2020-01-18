@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import firebase from '../Utils/firebase';
+import erro from './Utils/translateError';
 import { Redirect } from 'react-router';
 import { StyleSheet, css } from 'aphrodite';
 
@@ -13,6 +14,7 @@ const styles = StyleSheet.create({
     color: '#FF9A00',
     font: 'bolder 40px Arial',
     textShadow: '1px 1px 1px #B2B2B0',
+    textAlign: 'center',
   },
   input: {
     border: 'none',
@@ -30,13 +32,23 @@ const styles = StyleSheet.create({
     border: 'none',
     borderRadius: '15px',
     outline: 'none',
-    width: '30%',
+    width: '50%',
     height: '100px',
     background: '#FF9A00',
     margin: '10px',
     textAlign: 'center',
     color: '#FFFCFC',
     font: 'bolder 34px Arial',
+  },
+  buttonR: {
+    border: 'none',
+    outline: 'none',
+    textDecoration: 'underline',
+    background: '#262525',
+    margin: '10px',
+    textAlign: 'center',
+    color: '#FF9A00',
+    font: 'bolder 24px Arial',
   },
 });
 
@@ -63,19 +75,9 @@ const Register = () => {
           user_uid: firebase.auth().currentUser.uid,
         }
         fireUser.add(user)
-        if (occupation === 'kitchen') {
-          setPage('kitchen')
-        } else if (occupation === 'waiter') {
-          setPage('waiter')
-        }
+        setPage(occupation)
 
-      }).catch((error) => {
-        const errorCode = error.code;
-        if (errorCode === 'auth/weak-password') { alert('A senha deve possuir no mínimo 6 caracteres') }
-        if (errorCode === 'auth/email-already-in-use') { alert('O e-mail informado já está em uso') }
-        if (errorCode === 'auth/operation-not-allowed') { alert('Conta não ativada') }
-        if (errorCode === 'auth/invalid-email') { alert('Email inválido') }
-      });
+      }).catch((error) => { erro(error) });
     }
   }
 
@@ -92,7 +94,7 @@ const Register = () => {
       </select>
 
       <button className={css(styles.button)} onClick={createUser}>Criar conta</button>
-      <button className={css(styles.button)} onClick={() => setPage('login')}>Login</button>
+      <button className={css(styles.buttonR)} onClick={() => setPage('login')}>Login</button>
 
       {page === 'kitchen' ? <Redirect to="/kitchen" /> : null}
       {page === 'waiter' ? <Redirect to="/home" /> : null}

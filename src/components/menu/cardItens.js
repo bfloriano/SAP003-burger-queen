@@ -14,7 +14,11 @@ const styles = StyleSheet.create({
     padding: '5px',
     margin: '10px',
     font: 'italic 20px Arial',
-    color: '#FF9A00'
+    color: '#FF9A00',
+    '@media (max-width: 500px)': {
+      width: '160px',
+      margin: '5px',
+    }
   },
 
   title: {

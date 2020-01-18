@@ -45,23 +45,18 @@ function App() {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
 
-        let uid = user.uid;
+        let { uid } = user;
         firebase.firestore().collection("users").get().then(function (querySnapshot) {
           querySnapshot.forEach(function (doc) {
             if (doc.data()["user_uid"] === uid) {
-              if (doc.data().occupation === "kitchen") {
-                setRoll("kitchen");
-              } else if (doc.data().occupation === "waiter") {
-                setRoll("waiter");
-              }
-              console.log(doc.id, " => ", doc.data().occupation);
+              setRoll(doc.data().occupation);
             }
           });
         });
-
+        
       } else {
-        console.log("nao tem ninguem")
-        setRoll("nada");
+        console.log("no users logged in")
+        setRoll("noUsers");
       }
     });
   }, [])
@@ -77,41 +72,34 @@ function App() {
   return (
     <div className={css(styles.background)}>
       <Router>
-        <>
-          <Switch>
-            {roll === "kitchen" ?
-              (
-                <>
-                  <div className={css(styles.alignK)}>
-                    <Button class={css(styles.btnHome)} handleClick={() => logOut()} title='LogOut' />
-                  </div>
-                  <Redirect to="/kitchen" />
-                  <Route path="/kitchen" component={Kitchen} />
-                </>
-              ) : ((roll === "waiter") ?
-                (
-                  <>
-                    <div className={css(styles.align)}>
-                      <Link className={css(styles.btnHome)} to="/home">←</Link>
-                      <Button class={css(styles.btnHome)} handleClick={() => logOut()} title='LogOut' />
-                    </div>
-                    <Redirect to="/home" />
-                    <Route path="/home" component={Home} />
-                    <Route path="/menu" component={Menu} />
-                    <Route path="/delivery" component={Delivery} />
-                  </>
-                ) :
-                (
-                  <>
-                    <Redirect to="/" />
-                    <Route exact path="/" component={Login} />
-                    <Route path="/register" component={Register} />
-                  </>
-                )
-              )
-            }
-          </Switch>
-        </>
+        <Switch>
+          {roll === "kitchen" ?
+            (<>
+              <div className={css(styles.alignK)}>
+                <Button class={css(styles.btnHome)} handleClick={() => logOut()} title='LogOut' />
+              </div>
+              <Redirect to="/kitchen" />
+              <Route path="/kitchen" component={Kitchen} />
+            </>)
+            : ((roll === "waiter") ?
+              (<>
+                <div className={css(styles.align)}>
+                  <Link className={css(styles.btnHome)} to="/home">←</Link>
+                  <Button class={css(styles.btnHome)} handleClick={() => logOut()} title='LogOut' />
+                </div>
+                <Redirect to="/home" />
+                <Route path="/home" component={Home} />
+                <Route path="/menu" component={Menu} />
+                <Route path="/delivery" component={Delivery} />
+              </>)
+              : (<>
+                <Redirect to="/" />
+                <Route exact path="/" component={Login} />
+                <Route path="/register" component={Register} />
+              </>)
+            )
+          }
+        </Switch>
       </Router>
     </div>
   );

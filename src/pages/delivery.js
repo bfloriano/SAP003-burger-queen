@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, css } from 'aphrodite';
 import firebase from '../Utils/firebase';
+import time from './Utils/time';
+import conclud from './Utils/concludOrder';
+import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
   flex: {
@@ -51,12 +53,11 @@ const styles = StyleSheet.create({
     outline: 'none',
     borderRadius: '5px',
     height: '50px',
-    width: '25%',
+    width: '35%',
     background: '#FF9A00',
     color: '#FFFCFC',
     font: 'bolder 14px Arial',
     margin: '10px',
-
   },
   time: {
     borderTop: 'solid 0.02px white',
@@ -64,7 +65,6 @@ const styles = StyleSheet.create({
     color: '#B2B2B0',
     padding: '10px',
   },
-
 });
 
 function Delivery() {
@@ -83,41 +83,6 @@ function Delivery() {
       })
   }, [])
 
-  const conclud = (item) => {
-    firebase
-      .firestore().collection('Orders').doc(item.id).update({
-        status: 'concluded',
-        timeConclud: new Date(),
-        timeHourC: new Date().getHours(),
-        timeMinC: new Date().getMinutes(),
-        timeSecC: new Date().getSeconds(),
-      })
-  }
-
-  const time = (item) => {
-    let seconds;
-    let rest;
-
-    if (((item.timeDateS)) === ((item.timeDateD))) {
-      seconds = (((item.timeHourD * 3600) + (item.timeMinD * 60) + (item.timeSecD)) - ((item.timeHourS * 3600) + (item.timeMinS * 60) + (item.timeSecS)))
-    }
-    else {
-      seconds = (((item.timeHourD * 3600) + (item.timeMinD * 60) + (item.timeSecD) + 86400) - ((item.timeHourS * 3600) + (item.timeMinS * 60) + (item.timeSecS)))
-    }
-
-    let horas = Math.floor(seconds / (60 * 60));
-    rest = seconds % (60 * 60);
-
-    let minutos = Math.floor(rest / 60);
-    rest %= 60;
-
-    let segundos = Math.ceil(rest);
-
-    let hora = [horas + ' h, ', minutos + ' m e ', segundos + ' s.']
-    return hora;
-  }
-
-
   return (
     <div className={css(styles.flex)}>
       <h1 className={css(styles.pageTitle)}>Pedidos Prontos para a Entrega</h1>
@@ -129,29 +94,25 @@ function Delivery() {
               <p className={css(styles.title)}>{'Mesa ' + item.table} - {item.client}</p>
               <div className={css(styles.bodyItens)}>
                 <div className={css(styles.itens)}>
-
                   {item.resumo.map((itens, index) =>
                     <div key={index} >
                       {itens.type === 'burger' ?
-                        <div>
+                        <>
                           <p>Qtd:{itens.count} - {itens.name}{' /' + itens.meetSelect}</p>
-                          {itens.addExtra.length !== 0 ?
-                            <p>{' com adicional: ' + itens.addExtra}</p>
-                            : null
-                          }
-                        </div>
+                          { itens.addExtra.length !== 0 ? <p>{' com adicional: ' + itens.addExtra}</p> : null }
+                        </>
                         :
                         <p>Qtd:{itens.count} - {itens.name}</p>
                       }
                     </div>
                   )}
-
                 </div>
                 <button className={css(styles.button)} onClick={() => conclud(item)}>entregue!</button>
               </div>
-              <div className={css(styles.time)}>O pedido ficou pronto em: {time(item)}</div>
+              <p className={css(styles.time)}>O pedido ficou pronto em: {time(item)}</p>
             </div>
-            : null}
+            : null
+          }
         </div>
       )}
     </div>

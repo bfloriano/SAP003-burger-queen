@@ -83,9 +83,7 @@ function Kitchen() {
         status: 'toDeliver',
         timeDone: new Date(),
         timeDateD: new Date().getDate(),
-        timeHourD: new Date().getHours(),
-        timeMinD: new Date().getMinutes(),
-        timeSecD: new Date().getSeconds(),
+        timeDoneM: new Date().getTime(),
       })
   }
 
@@ -102,17 +100,14 @@ function Kitchen() {
               {item.resumo.map((products, index) =>
                 <div key={index} className={css(styles.item)}>
                   {products.type === 'burger' ?
-                    <div>
+                    <>
                       <p>{'Qtd: ' + products.count} - {products.name}</p>
                       <div className={css(styles.options)}>
                         <p>{'Hambúrguer: ' + products.meetSelect}</p>
-                        {products.addExtra.length !== 0 ?
-                          <p>{'Com adicional: ' + products.addExtra}</p>
-                          : null
-                        }
+                        { products.addExtra.length !== 0 ? <p>{'Com adicional: ' + products.addExtra}</p> : null }
                       </div>
-                    </div>
-                    :
+                    </>
+                  :
                     <p>{'Qtd: ' + products.count} - {products.name}</p>
                   }
                   <input type="checkbox" className={css(styles.check)} />

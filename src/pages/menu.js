@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, css } from 'aphrodite';
 import firebase from '../Utils/firebase';
 import RenderBreakfastItens from '../components/menu/breakfastItens';
 import RenderAllDayItens from '../components/menu/alldayItens';
 import Button from '../components/button';
 import Title from '../components/title';
 import Input from '../components/input';
+import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
   body: {
     display: 'flex',
     flexDirection: 'row',
+    '@media (max-width: 500px)': {
+      flexDirection: 'column',
+    }
   },
   menu: {
     borderRightStyle: 'double',
@@ -19,6 +22,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: '5px',
     marginRight: '1px',
+    '@media (max-width: 500px)': {
+      width: '100%',
+      borderBottom: 'solid 2px #FFFCFC',
+      paddingBottom: '10px',
+      marginBottom: '10px',
+    }
   },
   resumo: {
     width: '40%',
@@ -26,6 +35,9 @@ const styles = StyleSheet.create({
     margin: '5px',
     marginLeft: '1px',
     padding: '5px',
+    '@media (max-width: 500px)': {
+      width: '100%',
+    }
   },
   titleMenu: {
     font: 'bolder 36px Arial',
@@ -44,6 +56,10 @@ const styles = StyleSheet.create({
     font: 'bolder 30px Arial',
     color: '#FFFCFC',
     boxShadow: '1px 1px 5px #B2B2B0',
+    '@media (max-width: 500px)': {
+      width: '160px',
+      margin: '5px',
+    }
   },
   btnItensResumo: {
     height: '60px',
@@ -105,12 +121,27 @@ const styles = StyleSheet.create({
     font: 'bold 24px Arial',
     color: '#FF9A00'
   },
+  // '@media (max-width: 500px)': {
+  //   body: {
+  //     display: 'flex',
+  //     flexDirection: 'column',
+  //   },
+  //   btnCategory: {
+  //     height: '100px',
+  //     width: '180px',
+  //     background: 'blue',
+  //     padding: '10px',
+  //   // orientation: 'portrait',
+  //   // and (orientation: landscape)
+
+  // },
+  // }
 });
 
 function Menu() {
   const [menu, setMenu] = useState();
-  const [itens1, setItens1] = useState([]);
-  const [itens2, setItens2] = useState([]);
+  const [itensBreakfast, setItensBreakfast] = useState([]);
+  const [itensAllday, setItensAllday] = useState([]);
   const [resumo, setResumo] = useState([]);
   const [total, setTotal] = useState(0);
   const [client, setClient] = useState('');
@@ -123,14 +154,14 @@ function Menu() {
       .firestore().collection('menu').where('category', '==', 'breakfast')
       .get().then(snapshot => {
         snapshot.forEach(doc => {
-          setItens1((currentState) => [...currentState, doc.data()])
+          setItensBreakfast((currentState) => [...currentState, doc.data()])
         })
       })
     firebase
       .firestore().collection('menu').where('category', '==', 'allday')
       .get().then(snapshot => {
         snapshot.forEach(doc => {
-          setItens2((currentState) => [...currentState, doc.data()])
+          setItensAllday((currentState) => [...currentState, doc.data()])
         })
       })
   }, [])
@@ -195,9 +226,7 @@ function Menu() {
           table: parseInt(table),
           timeSend: new Date(),
           timeDateS: new Date().getDate(),
-          timeHourS: new Date().getHours(),
-          timeMinS: new Date().getMinutes(),
-          timeSecS: new Date().getSeconds(),
+          timeSendM: new Date().getTime(),
           status: 'inProgress',
         })
         .then(() => {
@@ -226,9 +255,14 @@ function Menu() {
         <Button class={css(styles.btnCategory)} handleClick={() => setMenu(true)} title='Breakfast' />
         <Button class={css(styles.btnCategory)} handleClick={() => setMenu(false)} title='All Day' />
 
-        {menu ? <RenderBreakfastItens state={itens1} function={addItem} />
-          : <RenderAllDayItens state={itens2} state2={option} setState2={setOption} state3={extra}
-            function1={handleCheckbox} function2={addBurger} function3={addItem} />}
+        {menu ? <RenderBreakfastItens stateItens={itensBreakfast} function={addItem} />
+              : <RenderAllDayItens 
+              stateItens={itensAllday} 
+              stateOption={option} setStateOption={setOption} 
+              stateExtra={extra} 
+              functionCheck={handleCheckbox} 
+              functionAddB={addBurger} 
+              functionAddI={addItem} />}
       </div>
 
       <div className={css(styles.resumo)}>

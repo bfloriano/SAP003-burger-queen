@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 const RenderBreakfastItens = (props) => {
   return (
     <div className={css(styles.flex)}>
-      {props.state.map((item, index) =>
+      {props.stateItens.map((item, index) =>
         <CardItem key={index} function={() => props.function(item)} name={item.name} price={item.price} />
       )}
     </div>
