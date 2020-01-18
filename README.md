@@ -81,13 +81,6 @@ O que deve acontecer para satisfazer as necessidades do usuário?
 
 *** 
 
-#### Definição de pronto
-
-* Testes de usabilidade e incorporar o feedback do usuário.
-* Deploy de seu aplicativo.
-
-***
-
 ## 3. Considerações gerais
 
 O principal objetivo de aprendizagem desse projeto foi aprender a construir uma interface web usando [React](https://reactjs.org/). Com esse framework foi possível [ manter a interface sincronizada com o estado](https://medium.com/dailyjs/the-deepest-reason-why-modern-javascript-frameworks-exist-933b86ebc445). Portanto, foi possível que cada mudança no estado refletisse na interface (por exemplo, toda vez que adicionamos um _produto_ para um _pedido_, a interface atualiza a lista de pedidos e o total).
