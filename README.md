@@ -2,17 +2,19 @@
 
 ## Índice
 
-* [1. Preâmbulo](#1-preâmbulo)
+* [1. Introdução](#1-introdução)
 * [2. Resumo do projeto](#2-resumo-do-projeto)
 * [3. Considerações gerais](#3-considerações-gerais)
 
 ***
 
-## 1. Preâmbulo
+## 1. Introdução
 
-Este projeto foi iniciado com o [Create React App](https://github.com/facebook/create-react-app).
+Este projeto faz parte do bootcamp da Laboratoria.
 
-A aplicação simula o sistema de pedidos de um restaurante. A página da aplicação pode ser acessada atraves do Link: [Burger Queen](https://burger-queen-ca66c.firebaseapp.com/)
+A aplicação simula o sistema de pedidos de um restaurante. Foi iniciado com o [Create React App](https://github.com/facebook/create-react-app).
+
+A página da aplicação pode ser acessada atraves do Link: [Burger Queen](https://burger-queen-ca66c.firebaseapp.com/)
 
 ## 2. Resumo do projeto
 
